@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tomato Tasks - AgriMitra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .tasks-page {
+            padding: 120px 2rem 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%);
+        }
+        
+        .tasks-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #263238;
+            margin-bottom: 0.3rem;
+        }
+        
+        .page-subtitle {
+            color: #546e7a;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        
+        .tasks-list {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+            transition: background 0.3s;
+        }
+        
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-item:hover {
+            background: #f9f9f9;
+        }
+        
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #f44336;
+        }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            color: #263238;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .task-title i {
+            color: #f44336;
+            font-size: 0.9rem;
+        }
+        
+        .task-variety {
+            font-size: 0.8rem;
+            color: #f44336;
+            background: #ffebee;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            display: inline-block;
+            margin-bottom: 0.3rem;
+        }
+        
+        .task-date {
+            color: #546e7a;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .task-date i {
+            width: 14px;
+            color: #f44336;
+        }
+        
+        .task-priority {
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .priority-high {
+            background: #ffebee;
+            color: #f44336;
+        }
+        
+        .priority-medium {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .priority-low {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .task-notes {
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #fff8e1;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border-left: 3px solid #ff9800;
+        }
+        
+        .task-notes i {
+            color: #ff9800;
+            margin-right: 0.5rem;
+        }
+        
+        .category-header {
+            margin: 1.2rem 0 0.8rem;
+            color: #263238;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .category-header i {
+            color: #f44336;
+        }
+        
+        @media (max-width: 768px) {
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .task-priority {
+                align-self: flex-start;
+                margin-top: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>AgriMitra</span>
+            </div>
+            <div class="nav-links">
+                <a href="home.html#home" id="navHome">Home</a>
+                <a href="home.html#features" id="navFeatures">Features</a>
+                <a href="home.html#about" id="navAbout">About</a>
+                <a href="home.html#contact" id="navContact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="mr">मराठी</option>
+                    </select>
+                </div>
+                <div id="profileSection" class="profile-section"></div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="tasks-page">
+        <div class="tasks-container">
+            <h1 class="page-title" id="pageTitle">🍅 Tomato Tasks</h1>
+            <p class="page-subtitle" id="pageSubtitle">Manage your daily tomato crop activities</p>
+            
+            <div class="tasks-list">
+                <!-- Watering Tasks -->
+                <div class="category-header">
+                    <i class="fas fa-tint"></i> <span id="wateringTitle">Watering Tasks</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-cherry"></i> <span id="task1Title">Irrigate Cherry Tomatoes</span>
+                        </div>
+                        <div class="task-variety" id="task1Variety">Variety: 'Sun Gold'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task1Date">Due in 2 days</span></div>
+                        <div class="task-notes">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="task1Note">Consistent moisture needed for fruit development</span>
+                        </div>
+                    </div>
+                    <span class="task-priority priority-high" id="task1Priority">High</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-crop"></i> <span id="task2Title">Water Roma Tomatoes</span>
+                        </div>
+                        <div class="task-variety" id="task2Variety">Variety: 'Roma VF'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task2Date">Due tomorrow</span></div>
+                    </div>
+                    <span class="task-priority priority-high" id="task2Priority">High</span>
+                </div>
+                
+                <!-- Pest Control Tasks -->
+                <div class="category-header" style="margin-top: 1.5rem;">
+                    <i class="fas fa-bug"></i> <span id="pestTitle">Pest & Disease Control</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-cow"></i> <span id="task3Title">Check Beefsteak for Hornworms</span>
+                        </div>
+                        <div class="task-variety" id="task3Variety">Variety: 'Brandywine'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task3Date">Due today</span></div>
+                        <div class="task-notes">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="task3Note">Handpick caterpillars in early morning</span>
+                        </div>
+                    </div>
+                    <span class="task-priority priority-high" id="task3Priority">High</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-bread-slice"></i> <span id="task4Title">Apply Neem Oil on Grape Tomatoes</span>
+                        </div>
+                        <div class="task-variety" id="task4Variety">Variety: 'Santa F1'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task4Date">Due in 3 days</span></div>
+                        <div class="task-notes">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="task4Note">Preventive spray for aphids and whiteflies</span>
+                        </div>
+                    </div>
+                    <span class="task-priority priority-medium" id="task4Priority">Medium</span>
+                </div>
+                
+                <!-- Fertilizing Tasks -->
+                <div class="category-header" style="margin-top: 1.5rem;">
+                    <i class="fas fa-flask"></i> <span id="fertilizingTitle">Fertilizing Tasks</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-star"></i> <span id="task5Title">Apply Calcium to Heirlooms</span>
+                        </div>
+                        <div class="task-variety" id="task5Variety">Variety: 'Cherokee Purple', 'Green Zebra'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task5Date">Due this week</span></div>
+                        <div class="task-notes">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="task5Note">Prevents blossom end rot</span>
+                        </div>
+                    </div>
+                    <span class="task-priority priority-medium" id="task5Priority">Medium</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-crop"></i> <span id="task6Title">Side-dress Roma with Compost</span>
+                        </div>
+                        <div class="task-variety" id="task6Variety">Variety: 'Roma VF'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task6Date">Due in 5 days</span></div>
+                    </div>
+                    <span class="task-priority priority-low" id="task6Priority">Low</span>
+                </div>
+                
+                <!-- Harvesting Tasks -->
+                <div class="category-header" style="margin-top: 1.5rem;">
+                    <i class="fas fa-basket-shopping"></i> <span id="harvestingTitle">Harvesting Tasks</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-cherry"></i> <span id="task7Title">First Cherry Tomato Harvest</span>
+                        </div>
+                        <div class="task-variety" id="task7Variety">Variety: 'Sun Gold'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task7Date">Ready in 10 days</span></div>
+                        <div class="task-notes">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="task7Note">Harvest when golden orange, not fully red</span>
+                        </div>
+                    </div>
+                    <span class="task-priority priority-medium" id="task7Priority">Medium</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-crop"></i> <span id="task8Title">Check Roma for Ripeness</span>
+                        </div>
+                        <div class="task-variety" id="task8Variety">Variety: 'Roma VF'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task8Date">Due this weekend</span></div>
+                    </div>
+                    <span class="task-priority priority-low" id="task8Priority">Low</span>
+                </div>
+                
+                <!-- Support/Maintenance Tasks -->
+                <div class="category-header" style="margin-top: 1.5rem;">
+                    <i class="fas fa-tools"></i> <span id="maintenanceTitle">Maintenance Tasks</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-cow"></i> <span id="task9Title">Trellis Beefsteak Vines</span>
+                        </div>
+                        <div class="task-variety" id="task9Variety">Variety: 'Brandywine'</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task9Date">Due this week</span></div>
+                        <div class="task-notes">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="task9Note">Heavy fruits need support to prevent breaking</span>
+                        </div>
+                    </div>
+                    <span class="task-priority priority-high" id="task9Priority">High</span>
+                </div>
+                
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <div class="task-content">
+                        <div class="task-title">
+                            <i class="fas fa-star"></i> <span id="task10Title">Prune Heirloom Suckers</span>
+                        </div>
+                        <div class="task-variety" id="task10Variety">Variety: All Heirlooms</div>
+                        <div class="task-date"><i class="far fa-clock"></i> <span id="task10Date">Due next week</span></div>
+                    </div>
+                    <span class="task-priority priority-low" id="task10Priority">Low</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Complete Tasks Translations for ALL 6 Languages
+        const tasksTranslations = {
+            en: {
+                // Navbar
+                home: "Home",
+                features: "Features",
+                about: "About",
+                contact: "Contact",
+                
+                // Page
+                pageTitle: "🍅 Tomato Tasks",
+                pageSubtitle: "Manage your daily tomato crop activities",
+                
+                // Categories
+                wateringTitle: "Watering Tasks",
+                pestTitle: "Pest & Disease Control",
+                fertilizingTitle: "Fertilizing Tasks",
+                harvestingTitle: "Harvesting Tasks",
+                maintenanceTitle: "Maintenance Tasks",
+                
+                // Task 1 - Cherry Tomato Irrigation
+                task1Title: "Irrigate Cherry Tomatoes",
+                task1Variety: "Variety: 'Sun Gold'",
+                task1Date: "Due in 2 days",
+                task1Note: "Consistent moisture needed for fruit development",
+                task1Priority: "High",
+                
+                // Task 2 - Roma Tomato Watering
+                task2Title: "Water Roma Tomatoes",
+                task2Variety: "Variety: 'Roma VF'",
+                task2Date: "Due tomorrow",
+                task2Priority: "High",
+                
+                // Task 3 - Beefsteak Pest Check
+                task3Title: "Check Beefsteak for Hornworms",
+                task3Variety: "Variety: 'Brandywine'",
+                task3Date: "Due today",
+                task3Note: "Handpick caterpillars in early morning",
+                task3Priority: "High",
+                
+                // Task 4 - Grape Tomato Neem Oil
+                task4Title: "Apply Neem Oil on Grape Tomatoes",
+                task4Variety: "Variety: 'Santa F1'",
+                task4Date: "Due in 3 days",
+                task4Note: "Preventive spray for aphids and whiteflies",
+                task4Priority: "Medium",
+                
+                // Task 5 - Heirloom Calcium
+                task5Title: "Apply Calcium to Heirlooms",
+                task5Variety: "Variety: 'Cherokee Purple', 'Green Zebra'",
+                task5Date: "Due this week",
+                task5Note: "Prevents blossom end rot",
+                task5Priority: "Medium",
+                
+                // Task 6 - Roma Compost
+                task6Title: "Side-dress Roma with Compost",
+                task6Variety: "Variety: 'Roma VF'",
+                task6Date: "Due in 5 days",
+                task6Priority: "Low",
+                
+                // Task 7 - Cherry Harvest
+                task7Title: "First Cherry Tomato Harvest",
+                task7Variety: "Variety: 'Sun Gold'",
+                task7Date: "Ready in 10 days",
+                task7Note: "Harvest when golden orange, not fully red",
+                task7Priority: "Medium",
+                
+                // Task 8 - Roma Ripeness
+                task8Title: "Check Roma for Ripeness",
+                task8Variety: "Variety: 'Roma VF'",
+                task8Date: "Due this weekend",
+                task8Priority: "Low",
+                
+                // Task 9 - Beefsteak Trellis
+                task9Title: "Trellis Beefsteak Vines",
+                task9Variety: "Variety: 'Brandywine'",
+                task9Date: "Due this week",
+                task9Note: "Heavy fruits need support to prevent breaking",
+                task9Priority: "High",
+                
+                // Task 10 - Heirloom Pruning
+                task10Title: "Prune Heirloom Suckers",
+                task10Variety: "Variety: All Heirlooms",
+                task10Date: "Due next week",
+                task10Priority: "Low"
+            },
+            
+            hi: {
+                home: "होम",
+                features: "विशेषताएं",
+                about: "हमारे बारे में",
+                contact: "संपर्क",
+                pageTitle: "🍅 टमाटर कार्य",
+                pageSubtitle: "अपनी दैनिक टमाटर फसल गतिविधियों का प्रबंधन करें",
+                wateringTitle: "सिंचाई कार्य",
+                pestTitle: "कीट एवं रोग नियंत्रण",
+                fertilizingTitle: "उर्वरक कार्य",
+                harvestingTitle: "कटाई कार्य",
+                maintenanceTitle: "रखरखाव कार्य",
+                
+                task1Title: "चेरी टमाटर की सिंचाई करें",
+                task1Variety: "किस्म: 'सन गोल्ड'",
+                task1Date: "2 दिन में देय",
+                task1Note: "फल विकास के लिए लगातार नमी आवश्यक",
+                task1Priority: "उच्च",
+                
+                task2Title: "रोमा टमाटर में पानी दें",
+                task2Variety: "किस्म: 'रोमा वीएफ'",
+                task2Date: "कल देय",
+                task2Priority: "उच्च",
+                
+                task3Title: "बीफस्टीक में हॉर्मवॉर्म की जाँच करें",
+                task3Variety: "किस्म: 'ब्रैंडीवाइन'",
+                task3Date: "आज देय",
+                task3Note: "सुबह जल्दी कीटों को हाथ से चुनें",
+                task3Priority: "उच्च",
+                
+                task4Title: "अंगूर टमाटर पर नीम तेल लगाएं",
+                task4Variety: "किस्म: 'सांता एफ1'",
+                task4Date: "3 दिन में देय",
+                task4Note: "एफिड्स और सफेद मक्खियों के लिए निवारक स्प्रे",
+                task4Priority: "मध्यम",
+                
+                task5Title: "विरासत किस्मों में कैल्शियम लगाएं",
+                task5Variety: "किस्म: 'चेरोकी पर्पल', 'ग्रीन ज़ेबरा'",
+                task5Date: "इस सप्ताह देय",
+                task5Note: "फूल सड़न को रोकता है",
+                task5Priority: "मध्यम",
+                
+                task6Title: "रोमा में कम्पोस्ट डालें",
+                task6Variety: "किस्म: 'रोमा वीएफ'",
+                task6Date: "5 दिन में देय",
+                task6Priority: "निम्न",
+                
+                task7Title: "पहली चेरी टमाटर कटाई",
+                task7Variety: "किस्म: 'सन गोल्ड'",
+                task7Date: "10 दिन में तैयार",
+                task7Note: "सुनहरा नारंगी होने पर कटाई करें, पूरी तरह लाल नहीं",
+                task7Priority: "मध्यम",
+                
+                task8Title: "रोमा के पकने की जाँच करें",
+                task8Variety: "किस्म: 'रोमा वीएफ'",
+                task8Date: "इस सप्ताहांत देय",
+                task8Priority: "निम्न",
+                
+                task9Title: "बीफस्टीक की बेलों को सहारा दें",
+                task9Variety: "किस्म: 'ब्रैंडीवाइन'",
+                task9Date: "इस सप्ताह देय",
+                task9Note: "भारी फलों को टूटने से बचाने के लिए सहारे की आवश्यकता",
+                task9Priority: "उच्च",
+                
+                task10Title: "विरासत किस्मों की कटाई करें",
+                task10Variety: "किस्म: सभी विरासत",
+                task10Date: "अगले सप्ताह देय",
+                task10Priority: "निम्न"
+            },
+            
+            ta: {
+                home: "முகப்பு",
+                features: "அம்சங்கள்",
+                about: "எங்களைப் பற்றி",
+                contact: "தொடர்பு",
+                pageTitle: "🍅 தக்காளி பணிகள்",
+                pageSubtitle: "உங்கள் தினசரி தக்காளி பயிர் நடவடிக்கைகளை நிர்வகிக்கவும்",
+                wateringTitle: "நீர்ப்பாசன பணிகள்",
+                pestTitle: "பூச்சி மற்றும் நோய் கட்டுப்பாடு",
+                fertilizingTitle: "உரமிடுதல் பணிகள்",
+                harvestingTitle: "அறுவடை பணிகள்",
+                maintenanceTitle: "பராமரிப்பு பணிகள்",
+                
+                task1Title: "செர்ரி தக்காளிக்கு நீர்ப்பாசனம் செய்யவும்",
+                task1Variety: "ரகம்: 'சன் கோல்ட்'",
+                task1Date: "2 நாட்களில் கெடு",
+                task1Note: "பழ வளர்ச்சிக்கு நிலையான ஈரப்பதம் தேவை",
+                task1Priority: "உயர்",
+                
+                task2Title: "ரோமா தக்காளிக்கு தண்ணீர் விடவும்",
+                task2Variety: "ரகம்: 'ரோமா விஎஃப்'",
+                task2Date: "நாளை கெடு",
+                task2Priority: "உயர்",
+                
+                task3Title: "பீஃப்ஸ்டீக்கில் ஹார்ம்வார்ம்களை சரிபார்க்கவும்",
+                task3Variety: "ரகம்: 'பிராண்டிவைன்'",
+                task3Date: "இன்று கெடு",
+                task3Note: "அதிகாலையில் புழுக்களை கையால் எடுக்கவும்",
+                task3Priority: "உயர்",
+                
+                task4Title: "திராட்சை தக்காளியில் வேப்ப எண்ணெய் தடவவும்",
+                task4Variety: "ரகம்: 'சாண்டா எஃப்1'",
+                task4Date: "3 நாட்களில் கெடு",
+                task4Note: "அசுவினி மற்றும் வெள்ளை ஈக்களுக்கு தடுப்பு தெளிப்பு",
+                task4Priority: "மிதமான",
+                
+                task5Title: "பாரம்பரிய ரகங்களில் கால்சியம் தடவவும்",
+                task5Variety: "ரகம்: 'செரோகி பர்பிள்', 'கிரீன் ஜீப்ரா'",
+                task5Date: "இந்த வாரம் கெடு",
+                task5Note: "பூ அழுகலை தடுக்கிறது",
+                task5Priority: "மிதமான",
+                
+                task6Title: "ரோமாவில் உரம் சேர்க்கவும்",
+                task6Variety: "ரகம்: 'ரோமா விஎஃப்'",
+                task6Date: "5 நாட்களில் கெடு",
+                task6Priority: "குறைந்த",
+                
+                task7Title: "முதல் செர்ரி தக்காளி அறுவடை",
+                task7Variety: "ரகம்: 'சன் கோல்ட்'",
+                task7Date: "10 நாட்களில் தயார்",
+                task7Note: "பொன் ஆரஞ்சு நிறத்தில் அறுவடை செய்யவும், முழுமையாக சிவக்கும் முன்",
+                task7Priority: "மிதமான",
+                
+                task8Title: "ரோமாவின் பழுத்த நிலையை சரிபார்க்கவும்",
+                task8Variety: "ரகம்: 'ரோமா விஎஃப்'",
+                task8Date: "இந்த வார இறுதியில் கெடு",
+                task8Priority: "குறைந்த",
+                
+                task9Title: "பீஃப்ஸ்டீக் கொடிகளுக்கு ஆதரவு அளிக்கவும்",
+                task9Variety: "ரகம்: 'பிராண்டிவைன்'",
+                task9Date: "இந்த வாரம் கெடு",
+                task9Note: "கனமான பழங்கள் உடைவதை தடுக்க ஆதரவு தேவை",
+                task9Priority: "உயர்",
+                
+                task10Title: "பாரம்பரிய ரகங்களை கத்தரிக்கவும்",
+                task10Variety: "ரகம்: அனைத்து பாரம்பரிய ரகங்கள்",
+                task10Date: "அடுத்த வாரம் கெடு",
+                task10Priority: "குறைந்த"
+            },
+            
+            te: {
+                home: "హోమ్",
+                features: "ఫీచర్లు",
+                about: "మా గురించి",
+                contact: "సంప్రదించండి",
+                pageTitle: "🍅 టమాట పనులు",
+                pageSubtitle: "మీ రోజువారీ టమాట పంట కార్యకలాపాలను నిర్వహించండి",
+                wateringTitle: "నీటి తడి పనులు",
+                pestTitle: "తెగుళ్లు & వ్యాధి నియంత్రణ",
+                fertilizingTitle: "ఎరువులు వేసే పనులు",
+                harvestingTitle: "కోత పనులు",
+                maintenanceTitle: "నిర్వహణ పనులు",
+                
+                task1Title: "చెర్రీ టమాటకు నీరు పెట్టండి",
+                task1Variety: "రకం: 'సన్ గోల్డ్'",
+                task1Date: "2 రోజుల్లో గడువు",
+                task1Note: "పండు అభివృద్ధికి స్థిరమైన తేమ అవసరం",
+                task1Priority: "అధిక",
+                
+                task2Title: "రోమా టమాటకు నీరు పెట్టండి",
+                task2Variety: "రకం: 'రోమా VF'",
+                task2Date: "రేపు గడువు",
+                task2Priority: "అధిక",
+                
+                task3Title: "బీఫ్‌స్టీక్‌లో హార్మ్‌వార్మ్‌ల కోసం తనిఖీ చేయండి",
+                task3Variety: "రకం: 'బ్రాండీవైన్'",
+                task3Date: "ఈరోజు గడువు",
+                task3Note: "ఉదయాన్నే పురుగులను చేతితో ఏరివేయండి",
+                task3Priority: "అధిక",
+                
+                task4Title: "గ్రేప్ టమాటపై వేప నూనె పూయండి",
+                task4Variety: "రకం: 'శాంటా F1'",
+                task4Date: "3 రోజుల్లో గడువు",
+                task4Note: "అఫిడ్స్ మరియు తెల్ల ఈగలకు నివారణ స్ప్రే",
+                task4Priority: "మధ్యస్థ",
+                
+                task5Title: "హీర్లూమ్ రకాలకు కాల్షియం పూయండి",
+                task5Variety: "రకం: 'చెరోకీ పర్పుల్', 'గ్రీన్ జీబ్రా'",
+                task5Date: "ఈ వారం గడువు",
+                task5Note: "పువ్వు కుళ్ళిపోకుండా నిరోధిస్తుంది",
+                task5Priority: "మధ్యస్థ",
+                
+                task6Title: "రోమాకు కంపోస్ట్ వేయండి",
+                task6Variety: "రకం: 'రోమా VF'",
+                task6Date: "5 రోజుల్లో గడువు",
+                task6Priority: "తక్కువ",
+                
+                task7Title: "మొదటి చెర్రీ టమాట కోత",
+                task7Variety: "రకం: 'సన్ గోల్డ్'",
+                task7Date: "10 రోజుల్లో సిద్ధం",
+                task7Note: "బంగారు నారింజ రంగులో కోయండి, పూర్తిగా ఎర్రగా కాదు",
+                task7Priority: "మధ్యస్థ",
+                
+                task8Title: "రోమా పండిన స్థితిని తనిఖీ చేయండి",
+                task8Variety: "రకం: 'రోమా VF'",
+                task8Date: "ఈ వారాంతంలో గడువు",
+                task8Priority: "తక్కువ",
+                
+                task9Title: "బీఫ్‌స్టీక్ తీగలకు ఆధారం ఇవ్వండి",
+                task9Variety: "రకం: 'బ్రాండీవైన్'",
+                task9Date: "ఈ వారం గడువు",
+                task9Note: "బరువైన పండ్లు విరగకుండా ఉండటానికి ఆధారం అవసరం",
+                task9Priority: "అధిక",
+                
+                task10Title: "హీర్లూమ్ రకాలను కత్తిరించండి",
+                task10Variety: "రకం: అన్ని హీర్లూమ్ రకాలు",
+                task10Date: "వచ్చే వారం గడువు",
+                task10Priority: "తక్కువ"
+            },
+            
+            kn: {
+                home: "ಮುಖಪುಟ",
+                features: "ವೈಶಿಷ್ಟ್ಯಗಳು",
+                about: "ನಮ್ಮ ಬಗ್ಗೆ",
+                contact: "ಸಂಪರ್ಕ",
+                pageTitle: "🍅 ಟೊಮೆಟೊ ಕಾರ್ಯಗಳು",
+                pageSubtitle: "ನಿಮ್ಮ ದೈನಂದಿನ ಟೊಮೆಟೊ ಬೆಳೆ ಚಟುವಟಿಕೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ",
+                wateringTitle: "ನೀರಾವರಿ ಕಾರ್ಯಗಳು",
+                pestTitle: "ಕೀಟ ಮತ್ತು ರೋಗ ನಿಯಂತ್ರಣ",
+                fertilizingTitle: "ಗೊಬ್ಬರ ಹಾಕುವ ಕಾರ್ಯಗಳು",
+                harvestingTitle: "ಸುಗ್ಗಿ ಕಾರ್ಯಗಳು",
+                maintenanceTitle: "ನಿರ್ವಹಣೆ ಕಾರ್ಯಗಳು",
+                
+                task1Title: "ಚೆರ್ರಿ ಟೊಮೆಟೊಗೆ ನೀರು ಹಾಯಿಸಿ",
+                task1Variety: "ತಳಿ: 'ಸನ್ ಗೋಲ್ಡ್'",
+                task1Date: "2 ದಿನಗಳಲ್ಲಿ ಗಡುವು",
+                task1Note: "ಹಣ್ಣಿನ ಬೆಳವಣಿಗೆಗೆ ಸ್ಥಿರವಾದ ತೇವಾಂಶ ಬೇಕು",
+                task1Priority: "ಅಧಿಕ",
+                
+                task2Title: "ರೋಮಾ ಟೊಮೆಟೊಗೆ ನೀರು ಹಾಕಿ",
+                task2Variety: "ತಳಿ: 'ರೋಮಾ ವಿಎಫ್'",
+                task2Date: "ನಾಳೆ ಗಡುವು",
+                task2Priority: "ಅಧಿಕ",
+                
+                task3Title: "ಬೀಫ್‌ಸ್ಟೀಕ್‌ನಲ್ಲಿ ಹಾರ್ಮ್‌ವಾರ್ಮ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಿ",
+                task3Variety: "ತಳಿ: 'ಬ್ರಾಂಡಿವೈನ್'",
+                task3Date: "ಇಂದು ಗಡುವು",
+                task3Note: "ಮುಂಜಾನೆ ಹುಳುಗಳನ್ನು ಕೈಯಿಂದ ಆರಿಸಿ",
+                task3Priority: "ಅಧಿಕ",
+                
+                task4Title: "ದ್ರಾಕ್ಷಿ ಟೊಮೆಟೊದಲ್ಲಿ ಬೇವಿನ ಎಣ್ಣೆ ಹಚ್ಚಿ",
+                task4Variety: "ತಳಿ: 'ಸಾಂಟಾ ಎಫ್1'",
+                task4Date: "3 ದಿನಗಳಲ್ಲಿ ಗಡುವು",
+                task4Note: "ಎಫಿಡ್ಸ್ ಮತ್ತು ಬಿಳಿ ನೊಣಗಳಿಗೆ ತಡೆಗಟ್ಟುವ ಸಿಂಪರಣೆ",
+                task4Priority: "ಮಧ್ಯಮ",
+                
+                task5Title: "ಹೀರ್‌ಲೂಮ್ ತಳಿಗಳಿಗೆ ಕ್ಯಾಲ್ಸಿಯಂ ಹಚ್ಚಿ",
+                task5Variety: "ತಳಿ: 'ಚೆರೋಕೀ ಪರ್ಪಲ್', 'ಗ್ರೀನ್ ಜೀಬ್ರಾ'",
+                task5Date: "ಈ ವಾರ ಗಡುವು",
+                task5Note: "ಹೂವು ಕೊಳೆತವನ್ನು ತಡೆಯುತ್ತದೆ",
+                task5Priority: "ಮಧ್ಯಮ",
+                
+                task6Title: "ರೋಮಾಕ್ಕೆ ಕಾಂಪೋಸ್ಟ್ ಹಾಕಿ",
+                task6Variety: "ತಳಿ: 'ರೋಮಾ ವಿಎಫ್'",
+                task6Date: "5 ದಿನಗಳಲ್ಲಿ ಗಡುವು",
+                task6Priority: "ಕಡಿಮೆ",
+                
+                task7Title: "ಮೊದಲ ಚೆರ್ರಿ ಟೊಮೆಟೊ ಸುಗ್ಗಿ",
+                task7Variety: "ತಳಿ: 'ಸನ್ ಗೋಲ್ಡ್'",
+                task7Date: "10 ದಿನಗಳಲ್ಲಿ ಸಿದ್ಧ",
+                task7Note: "ಚಿನ್ನದ ಕಿತ್ತಳೆ ಬಣ್ಣದಲ್ಲಿ ಕೊಯ್ಲು ಮಾಡಿ, ಸಂಪೂರ್ಣ ಕೆಂಪು ಅಲ್ಲ",
+                task7Priority: "ಮಧ್ಯಮ",
+                
+                task8Title: "ರೋಮಾದ ಮಾಗಿದ ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಿ",
+                task8Variety: "ತಳಿ: 'ರೋಮಾ ವಿಎಫ್'",
+                task8Date: "ಈ ವಾರಾಂತ್ಯದಲ್ಲಿ ಗಡುವು",
+                task8Priority: "ಕಡಿಮೆ",
+                
+                task9Title: "ಬೀಫ್‌ಸ್ಟೀಕ್ ಬಳ್ಳಿಗಳಿಗೆ ಆಧಾರ ಕೊಡಿ",
+                task9Variety: "ತಳಿ: 'ಬ್ರಾಂಡಿವೈನ್'",
+                task9Date: "ಈ ವಾರ ಗಡುವು",
+                task9Note: "ಭಾರೀ ಹಣ್ಣುಗಳು ಒಡೆಯದಂತೆ ತಡೆಯಲು ಆಧಾರ ಬೇಕು",
+                task9Priority: "ಅಧಿಕ",
+                
+                task10Title: "ಹೀರ್‌ಲೂಮ್ ತಳಿಗಳನ್ನು ಸಮರಿ",
+                task10Variety: "ತಳಿ: ಎಲ್ಲಾ ಹೀರ್‌ಲೂಮ್ ತಳಿಗಳು",
+                task10Date: "ಮುಂದಿನ ವಾರ ಗಡುವು",
+                task10Priority: "ಕಡಿಮೆ"
+            },
+            
+            mr: {
+                home: "मुखपृष्ठ",
+                features: "वैशिष्ट्ये",
+                about: "आमच्याबद्दल",
+                contact: "संपर्क",
+                pageTitle: "🍅 टोमॅटो कामे",
+                pageSubtitle: "तुमच्या दैनंदिन टोमॅटो पिकाच्या क्रियाकलापांचे व्यवस्थापन करा",
+                wateringTitle: "सिंचन कामे",
+                pestTitle: "कीटक आणि रोग नियंत्रण",
+                fertilizingTitle: "खत देण्याची कामे",
+                harvestingTitle: "कापणीची कामे",
+                maintenanceTitle: "देखभाल कामे",
+                
+                task1Title: "चेरी टोमॅटोला सिंचन करा",
+                task1Variety: "प्रकार: 'सन गोल्ड'",
+                task1Date: "2 दिवसांत मुदत",
+                task1Note: "फळ विकासासाठी सातत्यपूर्ण ओलावा आवश्यक",
+                task1Priority: "उच्च",
+                
+                task2Title: "रोमा टोमॅटोला पाणी द्या",
+                task2Variety: "प्रकार: 'रोमा व्हीएफ'",
+                task2Date: "उद्या मुदत",
+                task2Priority: "उच्च",
+                
+                task3Title: "बीफस्टीकमध्ये हॉर्मवॉर्म तपासा",
+                task3Variety: "प्रकार: 'ब्रॅंडीवाइन'",
+                task3Date: "आज मुदत",
+                task3Note: "पहाटे अळ्या हाताने निवडा",
+                task3Priority: "उच्च",
+                
+                task4Title: "ग्रेप टोमॅटोवर निंबोळी तेल लावा",
+                task4Variety: "प्रकार: 'सांता एफ१'",
+                task4Date: "३ दिवसांत मुदत",
+                task4Note: "अॅफिड्स आणि पांढर्या माश्यांसाठी प्रतिबंधात्मक फवारणी",
+                task4Priority: "मध्यम",
+                
+                task5Title: "हीरलूम प्रकारांना कॅल्शियम लावा",
+                task5Variety: "प्रकार: 'चेरोकी पर्पल', 'ग्रीन जेब्रा'",
+                task5Date: "या आठवड्यात मुदत",
+                task5Note: "फूल सडणे प्रतिबंधित करते",
+                task5Priority: "मध्यम",
+                
+                task6Title: "रोमामध्ये कंपोस्ट टाका",
+                task6Variety: "प्रकार: 'रोमा व्हीएफ'",
+                task6Date: "५ दिवसांत मुदत",
+                task6Priority: "कमी",
+                
+                task7Title: "पहिली चेरी टोमॅटो कापणी",
+                task7Variety: "प्रकार: 'सन गोल्ड'",
+                task7Date: "१० दिवसांत तयार",
+                task7Note: "सोनेरी नारंगी रंगात कापणी करा, पूर्णपणे लाल नव्हे",
+                task7Priority: "मध्यम",
+                
+                task8Title: "रोमाची पिकलेली स्थिती तपासा",
+                task8Variety: "प्रकार: 'रोमा व्हीएफ'",
+                task8Date: "या आठवड्याच्या शेवटी मुदत",
+                task8Priority: "कमी",
+                
+                task9Title: "बीफस्टीक वेलींना आधार द्या",
+                task9Variety: "प्रकार: 'ब्रॅंडीवाइन'",
+                task9Date: "या आठवड्यात मुदत",
+                task9Note: "जड फळे तुटण्यापासून रोखण्यासाठी आधार आवश्यक",
+                task9Priority: "उच्च",
+                
+                task10Title: "हीरलूम प्रकारांची छाटणी करा",
+                task10Variety: "प्रकार: सर्व हीरलूम प्रकार",
+                task10Date: "पुढील आठवड्यात मुदत",
+                task10Priority: "कमी"
+            }
+        };
+
+        function updateTasksLanguage(lang) {
+            const t = tasksTranslations[lang];
+            if (!t) return;
+            
+            // Navbar
+            document.getElementById('navHome').textContent = t.home;
+            document.getElementById('navFeatures').textContent = t.features;
+            document.getElementById('navAbout').textContent = t.about;
+            document.getElementById('navContact').textContent = t.contact;
+            
+            // Page title & subtitle
+            document.getElementById('pageTitle').textContent = t.pageTitle;
+            document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+            
+            // Category titles
+            document.getElementById('wateringTitle').textContent = t.wateringTitle;
+            document.getElementById('pestTitle').textContent = t.pestTitle;
+            document.getElementById('fertilizingTitle').textContent = t.fertilizingTitle;
+            document.getElementById('harvestingTitle').textContent = t.harvestingTitle;
+            document.getElementById('maintenanceTitle').textContent = t.maintenanceTitle;
+            
+            // Task 1
+            document.getElementById('task1Title').textContent = t.task1Title;
+            document.getElementById('task1Variety').textContent = t.task1Variety;
+            document.getElementById('task1Date').textContent = t.task1Date;
+            document.getElementById('task1Note').textContent = t.task1Note;
+            document.getElementById('task1Priority').textContent = t.task1Priority;
+            
+            // Task 2
+            document.getElementById('task2Title').textContent = t.task2Title;
+            document.getElementById('task2Variety').textContent = t.task2Variety;
+            document.getElementById('task2Date').textContent = t.task2Date;
+            document.getElementById('task2Priority').textContent = t.task2Priority;
+            
+            // Task 3
+            document.getElementById('task3Title').textContent = t.task3Title;
+            document.getElementById('task3Variety').textContent = t.task3Variety;
+            document.getElementById('task3Date').textContent = t.task3Date;
+            document.getElementById('task3Note').textContent = t.task3Note;
+            document.getElementById('task3Priority').textContent = t.task3Priority;
+            
+            // Task 4
+            document.getElementById('task4Title').textContent = t.task4Title;
+            document.getElementById('task4Variety').textContent = t.task4Variety;
+            document.getElementById('task4Date').textContent = t.task4Date;
+            document.getElementById('task4Note').textContent = t.task4Note;
+            document.getElementById('task4Priority').textContent = t.task4Priority;
+            
+            // Task 5
+            document.getElementById('task5Title').textContent = t.task5Title;
+            document.getElementById('task5Variety').textContent = t.task5Variety;
+            document.getElementById('task5Date').textContent = t.task5Date;
+            document.getElementById('task5Note').textContent = t.task5Note;
+            document.getElementById('task5Priority').textContent = t.task5Priority;
+            
+            // Task 6
+            document.getElementById('task6Title').textContent = t.task6Title;
+            document.getElementById('task6Variety').textContent = t.task6Variety;
+            document.getElementById('task6Date').textContent = t.task6Date;
+            document.getElementById('task6Priority').textContent = t.task6Priority;
+            
+            // Task 7
+            document.getElementById('task7Title').textContent = t.task7Title;
+            document.getElementById('task7Variety').textContent = t.task7Variety;
+            document.getElementById('task7Date').textContent = t.task7Date;
+            document.getElementById('task7Note').textContent = t.task7Note;
+            document.getElementById('task7Priority').textContent = t.task7Priority;
+            
+            // Task 8
+            document.getElementById('task8Title').textContent = t.task8Title;
+            document.getElementById('task8Variety').textContent = t.task8Variety;
+            document.getElementById('task8Date').textContent = t.task8Date;
+            document.getElementById('task8Priority').textContent = t.task8Priority;
+            
+            // Task 9
+            document.getElementById('task9Title').textContent = t.task9Title;
+            document.getElementById('task9Variety').textContent = t.task9Variety;
+            document.getElementById('task9Date').textContent = t.task9Date;
+            document.getElementById('task9Note').textContent = t.task9Note;
+            document.getElementById('task9Priority').textContent = t.task9Priority;
+            
+            // Task 10
+            document.getElementById('task10Title').textContent = t.task10Title;
+            document.getElementById('task10Variety').textContent = t.task10Variety;
+            document.getElementById('task10Date').textContent = t.task10Date;
+            document.getElementById('task10Priority').textContent = t.task10Priority;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = sessionStorage.getItem('agriMitraUser');
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const langSelect = document.getElementById('languageSelect');
+            const savedLang = localStorage.getItem('agriMitraLang') || 'en';
+            langSelect.value = savedLang;
+            updateTasksLanguage(savedLang);
+            
+            langSelect.addEventListener('change', function(e) {
+                updateTasksLanguage(e.target.value);
+                localStorage.setItem('agriMitraLang', e.target.value);
+            });
+        });
+    </script>
+    <script src="js/auth-check.js"></script>
+</body>
+</html>

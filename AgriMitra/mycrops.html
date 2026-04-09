@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tomato Crops - AgriMitra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .crops-page {
+            padding: 120px 2rem 4rem;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%);
+        }
+        
+        .crops-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #263238;
+            margin-bottom: 0.3rem;
+        }
+        
+        .page-subtitle {
+            color: #546e7a;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        
+        .crops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .crop-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border-top: 4px solid #f44336;
+        }
+        
+        .crop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .crop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        
+        .crop-name {
+            font-size: 1.3rem;
+            color: #263238;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .crop-name i {
+            color: #f44336;
+            font-size: 1.1rem;
+        }
+        
+        .crop-status {
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-healthy {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-warning {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .status-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .crop-variety {
+            background: #f5f5f5;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #666;
+            display: inline-block;
+            margin-bottom: 0.8rem;
+        }
+        
+        .crop-details {
+            margin: 0.8rem 0;
+            color: #546e7a;
+        }
+        
+        .crop-details p {
+            margin: 0.4rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .crop-details i {
+            width: 18px;
+            color: #f44336;
+        }
+        
+        .crop-progress {
+            margin-top: 0.8rem;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 0.3rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f44336, #ff7043);
+            border-radius: 5px;
+        }
+        
+        .crop-tips {
+            margin-top: 0.8rem;
+            padding: 0.6rem;
+            background: #fff8e1;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            border-left: 3px solid #ff9800;
+        }
+        
+        .crop-tips i {
+            color: #ff9800;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .crops-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>AgriMitra</span>
+            </div>
+            <div class="nav-links">
+                <a href="home.html#home" id="navHome">Home</a>
+                <a href="home.html#features" id="navFeatures">Features</a>
+                <a href="home.html#about" id="navAbout">About</a>
+                <a href="home.html#contact" id="navContact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="mr">मराठी</option>
+                    </select>
+                </div>
+                <div id="profileSection" class="profile-section"></div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="crops-page">
+        <div class="crops-container">
+            <h1 class="page-title" id="pageTitle">🍅 My Tomato Crops</h1>
+            <p class="page-subtitle" id="pageSubtitle">Managing 5 different tomato varieties across 3 acres</p>
+            
+            <div class="crops-grid">
+                <!-- Crop 1 - Cherry Tomato -->
+                <div class="crop-card">
+                    <div class="crop-header">
+                        <h2 class="crop-name">
+                            <i class="fas fa-cherry"></i> <span id="crop1Name">Cherry Tomato</span>
+                        </h2>
+                        <span class="crop-status status-healthy" id="crop1Status">Healthy</span>
+                    </div>
+                    <div class="crop-variety" id="crop1Variety">Variety: 'Sun Gold' (Hybrid)</div>
+                    <div class="crop-details">
+                        <p><i class="fas fa-calendar"></i> <span id="crop1Planted">Planted: 35 days ago</span></p>
+                        <p><i class="fas fa-vector-square"></i> <span id="crop1Area">Area: 0.5 acres</span></p>
+                        <p><i class="fas fa-tint"></i> <span id="crop1Water">Next irrigation: Tomorrow</span></p>
+                        <p><i class="fas fa-seedling"></i> <span id="crop1Harvest">First harvest: 10-15 days</span></p>
+                    </div>
+                    <div class="crop-progress">
+                        <p id="crop1Progress">Fruit Development: 60%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="crop-tips">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="crop1Tip">Support vines with trellis - fruits are forming</span>
+                    </div>
+                </div>
+
+                <!-- Crop 2 - Roma Tomato -->
+                <div class="crop-card">
+                    <div class="crop-header">
+                        <h2 class="crop-name">
+                            <i class="fas fa-crop"></i> <span id="crop2Name">Roma Tomato</span>
+                        </h2>
+                        <span class="crop-status status-healthy" id="crop2Status">Healthy</span>
+                    </div>
+                    <div class="crop-variety" id="crop2Variety">Variety: 'Roma VF' (Paste Tomato)</div>
+                    <div class="crop-details">
+                        <p><i class="fas fa-calendar"></i> <span id="crop2Planted">Planted: 50 days ago</span></p>
+                        <p><i class="fas fa-vector-square"></i> <span id="crop2Area">Area: 1 acre</span></p>
+                        <p><i class="fas fa-tint"></i> <span id="crop2Water">Next irrigation: 2 days</span></p>
+                        <p><i class="fas fa-seedling"></i> <span id="crop2Harvest">Ready for sauce making</span></p>
+                    </div>
+                    <div class="crop-progress">
+                        <p id="crop2Progress">Maturity: 85%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="crop-tips">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="crop2Tip">Perfect for canning - harvest when fully red</span>
+                    </div>
+                </div>
+
+                <!-- Crop 3 - Beefsteak -->
+                <div class="crop-card">
+                    <div class="crop-header">
+                        <h2 class="crop-name">
+                            <i class="fas fa-cow"></i> <span id="crop3Name">Beefsteak</span>
+                        </h2>
+                        <span class="crop-status status-warning" id="crop3Status">Needs Attention</span>
+                    </div>
+                    <div class="crop-variety" id="crop3Variety">Variety: 'Brandywine' (Heirloom)</div>
+                    <div class="crop-details">
+                        <p><i class="fas fa-calendar"></i> <span id="crop3Planted">Planted: 65 days ago</span></p>
+                        <p><i class="fas fa-vector-square"></i> <span id="crop3Area">Area: 0.75 acres</span></p>
+                        <p><i class="fas fa-bug"></i> <span id="crop3Pest">Pest risk: Moderate</span></p>
+                        <p><i class="fas fa-weight"></i> <span id="crop3Weight">Fruits: 300-500g each</span></p>
+                    </div>
+                    <div class="crop-progress">
+                        <p id="crop3Progress">Ripening: 70%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="crop-tips">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="crop3Tip">Check for hornworms - large fruits need support</span>
+                    </div>
+                </div>
+
+                <!-- Crop 4 - Grape Tomato -->
+                <div class="crop-card">
+                    <div class="crop-header">
+                        <h2 class="crop-name">
+                            <i class="fas fa-bread-slice"></i> <span id="crop4Name">Grape Tomato</span>
+                        </h2>
+                        <span class="crop-status status-healthy" id="crop4Status">Healthy</span>
+                    </div>
+                    <div class="crop-variety" id="crop4Variety">Variety: 'Santa F1' (Hybrid)</div>
+                    <div class="crop-details">
+                        <p><i class="fas fa-calendar"></i> <span id="crop4Planted">Planted: 28 days ago</span></p>
+                        <p><i class="fas fa-vector-square"></i> <span id="crop4Area">Area: 0.4 acres</span></p>
+                        <p><i class="fas fa-tint"></i> <span id="crop4Water">Next irrigation: Today</span></p>
+                        <p><i class="fas fa-seedling"></i> <span id="crop4Stage">Flowering stage</span></p>
+                    </div>
+                    <div class="crop-progress">
+                        <p id="crop4Progress">Growth: 45%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div class="crop-tips">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="crop4Tip">Consistent moisture needed for fruit set</span>
+                    </div>
+                </div>
+
+                <!-- Crop 5 - Heirloom Mix -->
+                <div class="crop-card">
+                    <div class="crop-header">
+                        <h2 class="crop-name">
+                            <i class="fas fa-star"></i> <span id="crop5Name">Heirloom Mix</span>
+                        </h2>
+                        <span class="crop-status status-success" id="crop5Status">Good</span>
+                    </div>
+                    <div class="crop-variety" id="crop5Variety">Variety: 'Cherokee Purple', 'Green Zebra'</div>
+                    <div class="crop-details">
+                        <p><i class="fas fa-calendar"></i> <span id="crop5Planted">Planted: 55 days ago</span></p>
+                        <p><i class="fas fa-vector-square"></i> <span id="crop5Area">Area: 0.35 acres</span></p>
+                        <p><i class="fas fa-tint"></i> <span id="crop5Water">Next irrigation: 3 days</span></p>
+                        <p><i class="fas fa-palette"></i> <span id="crop5Color">Unique colors ripening</span></p>
+                    </div>
+                    <div class="crop-progress">
+                        <p id="crop5Progress">Color Development: 50%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="crop-tips">
+                        <i class="fas fa-lightbulb"></i>
+                        <span id="crop5Tip">Don't water from above - prevents fungal issues</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Complete Crops Translations for ALL 6 Languages
+        const cropsTranslations = {
+            en: {
+                // Navbar
+                home: "Home",
+                features: "Features",
+                about: "About",
+                contact: "Contact",
+                
+                // Page
+                pageTitle: "🍅 My Tomato Crops",
+                pageSubtitle: "Managing 5 different tomato varieties across 3 acres",
+                
+                // Crop 1 - Cherry
+                crop1Name: "Cherry Tomato",
+                crop1Status: "Healthy",
+                crop1Variety: "Variety: 'Sun Gold' (Hybrid)",
+                crop1Planted: "Planted: 35 days ago",
+                crop1Area: "Area: 0.5 acres",
+                crop1Water: "Next irrigation: Tomorrow",
+                crop1Harvest: "First harvest: 10-15 days",
+                crop1Progress: "Fruit Development: 60%",
+                crop1Tip: "Support vines with trellis - fruits are forming",
+                
+                // Crop 2 - Roma
+                crop2Name: "Roma Tomato",
+                crop2Status: "Healthy",
+                crop2Variety: "Variety: 'Roma VF' (Paste Tomato)",
+                crop2Planted: "Planted: 50 days ago",
+                crop2Area: "Area: 1 acre",
+                crop2Water: "Next irrigation: 2 days",
+                crop2Harvest: "Ready for sauce making",
+                crop2Progress: "Maturity: 85%",
+                crop2Tip: "Perfect for canning - harvest when fully red",
+                
+                // Crop 3 - Beefsteak
+                crop3Name: "Beefsteak",
+                crop3Status: "Needs Attention",
+                crop3Variety: "Variety: 'Brandywine' (Heirloom)",
+                crop3Planted: "Planted: 65 days ago",
+                crop3Area: "Area: 0.75 acres",
+                crop3Pest: "Pest risk: Moderate",
+                crop3Weight: "Fruits: 300-500g each",
+                crop3Progress: "Ripening: 70%",
+                crop3Tip: "Check for hornworms - large fruits need support",
+                
+                // Crop 4 - Grape
+                crop4Name: "Grape Tomato",
+                crop4Status: "Healthy",
+                crop4Variety: "Variety: 'Santa F1' (Hybrid)",
+                crop4Planted: "Planted: 28 days ago",
+                crop4Area: "Area: 0.4 acres",
+                crop4Water: "Next irrigation: Today",
+                crop4Stage: "Flowering stage",
+                crop4Progress: "Growth: 45%",
+                crop4Tip: "Consistent moisture needed for fruit set",
+                
+                // Crop 5 - Heirloom
+                crop5Name: "Heirloom Mix",
+                crop5Status: "Good",
+                crop5Variety: "Variety: 'Cherokee Purple', 'Green Zebra'",
+                crop5Planted: "Planted: 55 days ago",
+                crop5Area: "Area: 0.35 acres",
+                crop5Water: "Next irrigation: 3 days",
+                crop5Color: "Unique colors ripening",
+                crop5Progress: "Color Development: 50%",
+                crop5Tip: "Don't water from above - prevents fungal issues"
+            },
+            
+            hi: {
+                home: "होम",
+                features: "विशेषताएं",
+                about: "हमारे बारे में",
+                contact: "संपर्क",
+                pageTitle: "🍅 मेरी टमाटर फसलें",
+                pageSubtitle: "3 एकड़ में 5 विभिन्न टमाटर किस्मों का प्रबंधन",
+                
+                crop1Name: "चेरी टमाटर",
+                crop1Status: "स्वस्थ",
+                crop1Variety: "किस्म: 'सन गोल्ड' (संकर)",
+                crop1Planted: "रोपित: 35 दिन पहले",
+                crop1Area: "क्षेत्र: 0.5 एकड़",
+                crop1Water: "अगली सिंचाई: कल",
+                crop1Harvest: "पहली फसल: 10-15 दिन",
+                crop1Progress: "फल विकास: 60%",
+                crop1Tip: "बेलों को सहारा दें - फल बन रहे हैं",
+                
+                crop2Name: "रोमा टमाटर",
+                crop2Status: "स्वस्थ",
+                crop2Variety: "किस्म: 'रोमा वीएफ' (पेस्ट टमाटर)",
+                crop2Planted: "रोपित: 50 दिन पहले",
+                crop2Area: "क्षेत्र: 1 एकड़",
+                crop2Water: "अगली सिंचाई: 2 दिन",
+                crop2Harvest: "सॉस बनाने के लिए तैयार",
+                crop2Progress: "परिपक्वता: 85%",
+                crop2Tip: "डिब्बाबंदी के लिए उत्तम - पूरी तरह लाल होने पर कटाई करें",
+                
+                crop3Name: "बीफस्टीक",
+                crop3Status: "ध्यान देने की आवश्यकता",
+                crop3Variety: "किस्म: 'ब्रैंडीवाइन' (विरासत)",
+                crop3Planted: "रोपित: 65 दिन पहले",
+                crop3Area: "क्षेत्र: 0.75 एकड़",
+                crop3Pest: "कीट जोखिम: मध्यम",
+                crop3Weight: "फल: 300-500 ग्राम प्रति",
+                crop3Progress: "पकना: 70%",
+                crop3Tip: "हॉर्मवॉर्म की जाँच करें - बड़े फलों को सहारे की आवश्यकता",
+                
+                crop4Name: "अंगूर टमाटर",
+                crop4Status: "स्वस्थ",
+                crop4Variety: "किस्म: 'सांता एफ1' (संकर)",
+                crop4Planted: "रोपित: 28 दिन पहले",
+                crop4Area: "क्षेत्र: 0.4 एकड़",
+                crop4Water: "अगली सिंचाई: आज",
+                crop4Stage: "फूल आने की अवस्था",
+                crop4Progress: "वृद्धि: 45%",
+                crop4Tip: "फल लगने के लिए लगातार नमी आवश्यक",
+                
+                crop5Name: "विरासत मिश्रण",
+                crop5Status: "अच्छा",
+                crop5Variety: "किस्म: 'चेरोकी पर्पल', 'ग्रीन ज़ेबरा'",
+                crop5Planted: "रोपित: 55 दिन पहले",
+                crop5Area: "क्षेत्र: 0.35 एकड़",
+                crop5Water: "अगली सिंचाई: 3 दिन",
+                crop5Color: "अद्वितीय रंग पक रहे हैं",
+                crop5Progress: "रंग विकास: 50%",
+                crop5Tip: "ऊपर से पानी न दें - फफूंद जनित समस्याओं से बचाता है"
+            },
+            
+            ta: {
+                home: "முகப்பு",
+                features: "அம்சங்கள்",
+                about: "எங்களைப் பற்றி",
+                contact: "தொடர்பு",
+                pageTitle: "🍅 எனது தக்காளி பயிர்கள்",
+                pageSubtitle: "3 ஏக்கரில் 5 வெவ்வேறு தக்காளி ரகங்களை நிர்வகித்தல்",
+                
+                crop1Name: "செர்ரி தக்காளி",
+                crop1Status: "ஆரோக்கியமானது",
+                crop1Variety: "ரகம்: 'சன் கோல்ட்' (கலப்பின)",
+                crop1Planted: "நடப்பட்டது: 35 நாட்களுக்கு முன்பு",
+                crop1Area: "பரப்பளவு: 0.5 ஏக்கர்",
+                crop1Water: "அடுத்த பாசனம்: நாளை",
+                crop1Harvest: "முதல் அறுவடை: 10-15 நாட்கள்",
+                crop1Progress: "பழ வளர்ச்சி: 60%",
+                crop1Tip: "கொடிகளுக்கு ஆதரவு அளிக்கவும் - பழங்கள் உருவாகின்றன",
+                
+                crop2Name: "ரோமா தக்காளி",
+                crop2Status: "ஆரோக்கியமானது",
+                crop2Variety: "ரகம்: 'ரோமா விஎஃப்' (பேஸ்ட் தக்காளி)",
+                crop2Planted: "நடப்பட்டது: 50 நாட்களுக்கு முன்பு",
+                crop2Area: "பரப்பளவு: 1 ஏக்கர்",
+                crop2Water: "அடுத்த பாசனம்: 2 நாட்கள்",
+                crop2Harvest: "சாஸ் தயாரிக்க தயாராக உள்ளது",
+                crop2Progress: "முதிர்ச்சி: 85%",
+                crop2Tip: "பதப்படுத்தலுக்கு சிறந்தது - முழுமையாக சிவந்ததும் அறுவடை செய்யவும்",
+                
+                crop3Name: "பீஃப்ஸ்டீக்",
+                crop3Status: "கவனம் தேவை",
+                crop3Variety: "ரகம்: 'பிராண்டிவைன்' (பாரம்பரியம்)",
+                crop3Planted: "நடப்பட்டது: 65 நாட்களுக்கு முன்பு",
+                crop3Area: "பரப்பளவு: 0.75 ஏக்கர்",
+                crop3Pest: "பூச்சி ஆபத்து: மிதமானது",
+                crop3Weight: "பழங்கள்: 300-500 கிராம்",
+                crop3Progress: "பழுத்தல்: 70%",
+                crop3Tip: "ஹார்ம்வார்ம்களை சரிபார்க்கவும் - பெரிய பழங்களுக்கு ஆதரவு தேவை",
+                
+                crop4Name: "திராட்சை தக்காளி",
+                crop4Status: "ஆரோக்கியமானது",
+                crop4Variety: "ரகம்: 'சாண்டா எஃப்1' (கலப்பின)",
+                crop4Planted: "நடப்பட்டது: 28 நாட்களுக்கு முன்பு",
+                crop4Area: "பரப்பளவு: 0.4 ஏக்கர்",
+                crop4Water: "அடுத்த பாசனம்: இன்று",
+                crop4Stage: "பூக்கும் நிலை",
+                crop4Progress: "வளர்ச்சி: 45%",
+                crop4Tip: "பழம் பிடிப்பதற்கு நிலையான ஈரப்பதம் தேவை",
+                
+                crop5Name: "பாரம்பரிய கலவை",
+                crop5Status: "நல்லது",
+                crop5Variety: "ரகம்: 'செரோகி பர்பிள்', 'கிரீன் ஜீப்ரா'",
+                crop5Planted: "நடப்பட்டது: 55 நாட்களுக்கு முன்பு",
+                crop5Area: "பரப்பளவு: 0.35 ஏக்கர்",
+                crop5Water: "அடுத்த பாசனம்: 3 நாட்கள்",
+                crop5Color: "தனித்துவமான வண்ணங்கள் பழுக்கின்றன",
+                crop5Progress: "வண்ண வளர்ச்சி: 50%",
+                crop5Tip: "மேலிருந்து தண்ணீர் விடாதீர்கள் - பூஞ்சை பிரச்சனைகளை தடுக்கிறது"
+            },
+            
+            te: {
+                home: "హోమ్",
+                features: "ఫీచర్లు",
+                about: "మా గురించి",
+                contact: "సంప్రదించండి",
+                pageTitle: "🍅 నా టమాట పంటలు",
+                pageSubtitle: "3 ఎకరాలలో 5 విభిన్న టమాట రకాలను నిర్వహించడం",
+                
+                crop1Name: "చెర్రీ టమాట",
+                crop1Status: "ఆరోగ్యకరమైనది",
+                crop1Variety: "రకం: 'సన్ గోల్డ్' (హైబ్రిడ్)",
+                crop1Planted: "నాటినది: 35 రోజుల క్రితం",
+                crop1Area: "విస్తీర్ణం: 0.5 ఎకరాలు",
+                crop1Water: "తదుపరి నీటి తడి: రేపు",
+                crop1Harvest: "మొదటి కోత: 10-15 రోజులు",
+                crop1Progress: "పండు అభివృద్ధి: 60%",
+                crop1Tip: "తీగలకు ఆధారం ఇవ్వండి - పండ్లు ఏర్పడుతున్నాయి",
+                
+                crop2Name: "రోమా టమాట",
+                crop2Status: "ఆరోగ్యకరమైనది",
+                crop2Variety: "రకం: 'రోమా VF' (పేస్ట్ టమాట)",
+                crop2Planted: "నాటినది: 50 రోజుల క్రితం",
+                crop2Area: "విస్తీర్ణం: 1 ఎకరం",
+                crop2Water: "తదుపరి నీటి తడి: 2 రోజులు",
+                crop2Harvest: "సాస్ తయారీకి సిద్ధంగా ఉంది",
+                crop2Progress: "పరిపక్వత: 85%",
+                crop2Tip: "క్యానింగ్ కు సరైనది - పూర్తిగా ఎర్రగా మారినప్పుడు కోయండి",
+                
+                crop3Name: "బీఫ్స్టీక్",
+                crop3Status: "శ్రద్ధ అవసరం",
+                crop3Variety: "రకం: 'బ్రాండీవైన్' (హీర్లూమ్)",
+                crop3Planted: "నాటినది: 65 రోజుల క్రితం",
+                crop3Area: "విస్తీర్ణం: 0.75 ఎకరాలు",
+                crop3Pest: "తెగుళ్ల ప్రమాదం: మితమైనది",
+                crop3Weight: "పండ్లు: 300-500 గ్రా",
+                crop3Progress: "పండడం: 70%",
+                crop3Tip: "హార్మ్వార్మ్ల కోసం తనిఖీ చేయండి - పెద్ద పండ్లకు ఆధారం అవసరం",
+                
+                crop4Name: "గ్రేప్ టమాట",
+                crop4Status: "ఆరోగ్యకరమైనది",
+                crop4Variety: "రకం: 'శాంటా F1' (హైబ్రిడ్)",
+                crop4Planted: "నాటినది: 28 రోజుల క్రితం",
+                crop4Area: "విస్తీర్ణం: 0.4 ఎకరాలు",
+                crop4Water: "తదుపరి నీటి తడి: ఈరోజు",
+                crop4Stage: "పూత దశ",
+                crop4Progress: "పెరుగుదల: 45%",
+                crop4Tip: "పండు సెట్ కావడానికి స్థిరమైన తేమ అవసరం",
+                
+                crop5Name: "హీర్లూమ్ మిక్స్",
+                crop5Status: "మంచిది",
+                crop5Variety: "రకం: 'చెరోకీ పర్పుల్', 'గ్రీన్ జీబ్రా'",
+                crop5Planted: "నాటినది: 55 రోజుల క్రితం",
+                crop5Area: "విస్తీర్ణం: 0.35 ఎకరాలు",
+                crop5Water: "తదుపరి నీటి తడి: 3 రోజులు",
+                crop5Color: "ప్రత్యేకమైన రంగులు పండుతున్నాయి",
+                crop5Progress: "రంగు అభివృద్ధి: 50%",
+                crop5Tip: "పైనుండి నీరు పోయకండి - ఫంగల్ సమస్యలను నివారిస్తుంది"
+            },
+            
+            kn: {
+                home: "ಮುಖಪುಟ",
+                features: "ವೈಶಿಷ್ಟ್ಯಗಳು",
+                about: "ನಮ್ಮ ಬಗ್ಗೆ",
+                contact: "ಸಂಪರ್ಕ",
+                pageTitle: "🍅 ನನ್ನ ಟೊಮೆಟೊ ಬೆಳೆಗಳು",
+                pageSubtitle: "3 ಎಕರೆಗಳಲ್ಲಿ 5 ವಿಭಿನ್ನ ಟೊಮೆಟೊ ತಳಿಗಳನ್ನು ನಿರ್ವಹಿಸಲಾಗುತ್ತಿದೆ",
+                
+                crop1Name: "ಚೆರ್ರಿ ಟೊಮೆಟೊ",
+                crop1Status: "ಆರೋಗ್ಯಕರ",
+                crop1Variety: "ತಳಿ: 'ಸನ್ ಗೋಲ್ಡ್' (ಮಿಶ್ರತಳಿ)",
+                crop1Planted: "ನೆಟ್ಟದ್ದು: 35 ದಿನಗಳ ಹಿಂದೆ",
+                crop1Area: "ವಿಸ್ತೀರ್ಣ: 0.5 ಎಕರೆ",
+                crop1Water: "ಮುಂದಿನ ನೀರಾವರಿ: ನಾಳೆ",
+                crop1Harvest: "ಮೊದಲ ಸುಗ್ಗಿ: 10-15 ದಿನಗಳು",
+                crop1Progress: "ಹಣ್ಣಿನ ಅಭಿವೃದ್ಧಿ: 60%",
+                crop1Tip: "ಬಳ್ಳಿಗಳಿಗೆ ಆಧಾರ ಕೊಡಿ - ಹಣ್ಣುಗಳು ರೂಪುಗೊಳ್ಳುತ್ತಿವೆ",
+                
+                crop2Name: "ರೋಮಾ ಟೊಮೆಟೊ",
+                crop2Status: "ಆರೋಗ್ಯಕರ",
+                crop2Variety: "ತಳಿ: 'ರೋಮಾ ವಿಎಫ್' (ಪೇಸ್ಟ್ ಟೊಮೆಟೊ)",
+                crop2Planted: "ನೆಟ್ಟದ್ದು: 50 ದಿನಗಳ ಹಿಂದೆ",
+                crop2Area: "ವಿಸ್ತೀರ್ಣ: 1 ಎಕರೆ",
+                crop2Water: "ಮುಂದಿನ ನೀರಾವರಿ: 2 ದಿನಗಳು",
+                crop2Harvest: "ಸಾಸ್ ತಯಾರಿಕೆಗೆ ಸಿದ್ಧವಾಗಿದೆ",
+                crop2Progress: "ಪರಿಪಕ್ವತೆ: 85%",
+                crop2Tip: "ಕ್ಯಾನಿಂಗ್‌ಗೆ ಸೂಕ್ತ - ಸಂಪೂರ್ಣ ಕೆಂಪಾದಾಗ ಕೊಯ್ಲು ಮಾಡಿ",
+                
+                crop3Name: "ಬೀಫ್‌ಸ್ಟೀಕ್",
+                crop3Status: "ಗಮನ ಅಗತ್ಯ",
+                crop3Variety: "ತಳಿ: 'ಬ್ರಾಂಡಿವೈನ್' (ಪಾರಂಪರಿಕ)",
+                crop3Planted: "ನೆಟ್ಟದ್ದು: 65 ದಿನಗಳ ಹಿಂದೆ",
+                crop3Area: "ವಿಸ್ತೀರ್ಣ: 0.75 ಎಕರೆ",
+                crop3Pest: "ಕೀಟ ಅಪಾಯ: ಮಧ್ಯಮ",
+                crop3Weight: "ಹಣ್ಣುಗಳು: 300-500 ಗ್ರಾಂ",
+                crop3Progress: "ಮಾಗುವಿಕೆ: 70%",
+                crop3Tip: "ಹಾರ್ಮ್‌ವಾರ್ಮ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸಿ - ದೊಡ್ಡ ಹಣ್ಣುಗಳಿಗೆ ಆಧಾರ ಬೇಕು",
+                
+                crop4Name: "ದ್ರಾಕ್ಷಿ ಟೊಮೆಟೊ",
+                crop4Status: "ಆರೋಗ್ಯಕರ",
+                crop4Variety: "ತಳಿ: 'ಸಾಂಟಾ ಎಫ್1' (ಮಿಶ್ರತಳಿ)",
+                crop4Planted: "ನೆಟ್ಟದ್ದು: 28 ದಿನಗಳ ಹಿಂದೆ",
+                crop4Area: "ವಿಸ್ತೀರ್ಣ: 0.4 ಎಕರೆ",
+                crop4Water: "ಮುಂದಿನ ನೀರಾವರಿ: ಇಂದು",
+                crop4Stage: "ಹೂವಿನ ಹಂತ",
+                crop4Progress: "ಬೆಳವಣಿಗೆ: 45%",
+                crop4Tip: "ಹಣ್ಣು ಗೊಂಚಲಿಗೆ ಸ್ಥಿರವಾದ ತೇವಾಂಶ ಬೇಕು",
+                
+                crop5Name: "ಪಾರಂಪರಿಕ ಮಿಶ್ರಣ",
+                crop5Status: "ಉತ್ತಮ",
+                crop5Variety: "ತಳಿ: 'ಚೆರೋಕೀ ಪರ್ಪಲ್', 'ಗ್ರೀನ್ ಜೀಬ್ರಾ'",
+                crop5Planted: "ನೆಟ್ಟದ್ದು: 55 ದಿನಗಳ ಹಿಂದೆ",
+                crop5Area: "ವಿಸ್ತೀರ್ಣ: 0.35 ಎಕರೆ",
+                crop5Water: "ಮುಂದಿನ ನೀರಾವರಿ: 3 ದಿನಗಳು",
+                crop5Color: "ವಿಶಿಷ್ಟ ಬಣ್ಣಗಳು ಮಾಗುತ್ತಿವೆ",
+                crop5Progress: "ಬಣ್ಣ ಅಭಿವೃದ್ಧಿ: 50%",
+                crop5Tip: "ಮೇಲಿನಿಂದ ನೀರು ಹಾಕಬೇಡಿ - ಶಿಲೀಂಧ್ರ ಸಮಸ್ಯೆಗಳನ್ನು ತಡೆಯುತ್ತದೆ"
+            },
+            
+            mr: {
+                home: "मुखपृष्ठ",
+                features: "वैशिष्ट्ये",
+                about: "आमच्याबद्दल",
+                contact: "संपर्क",
+                pageTitle: "🍅 माझी टोमॅटो पिके",
+                pageSubtitle: "3 एकरात 5 वेगवेगळ्या टोमॅटो जातींचे व्यवस्थापन",
+                
+                crop1Name: "चेरी टोमॅटो",
+                crop1Status: "निरोगी",
+                crop1Variety: "जात: 'सन गोल्ड' (संकरित)",
+                crop1Planted: "लागवड: 35 दिवसांपूर्वी",
+                crop1Area: "क्षेत्र: 0.5 एकर",
+                crop1Water: "पुढील सिंचन: उद्या",
+                crop1Harvest: "पहिली कापणी: 10-15 दिवस",
+                crop1Progress: "फळ विकास: 60%",
+                crop1Tip: "वेलींना आधार द्या - फळे तयार होत आहेत",
+                
+                crop2Name: "रोमा टोमॅटो",
+                crop2Status: "निरोगी",
+                crop2Variety: "जात: 'रोमा व्हीएफ' (पेस्ट टोमॅटो)",
+                crop2Planted: "लागवड: 50 दिवसांपूर्वी",
+                crop2Area: "क्षेत्र: 1 एकर",
+                crop2Water: "पुढील सिंचन: 2 दिवस",
+                crop2Harvest: "सॉस बनवण्यासाठी तयार",
+                crop2Progress: "परिपक्वता: 85%",
+                crop2Tip: "कॅनिंगसाठी उत्तम - पूर्ण लाल झाल्यावर काढा",
+                
+                crop3Name: "बीफस्टीक",
+                crop3Status: "लक्ष देणे आवश्यक",
+                crop3Variety: "जात: 'ब्रॅंडीवाइन' (पारंपरिक)",
+                crop3Planted: "लागवड: 65 दिवसांपूर्वी",
+                crop3Area: "क्षेत्र: 0.75 एकर",
+                crop3Pest: "कीटक धोका: मध्यम",
+                crop3Weight: "फळे: 300-500 ग्रॅम",
+                crop3Progress: "पिकणे: 70%",
+                crop3Tip: "हॉर्मवॉर्म तपासा - मोठ्या फळांना आधार आवश्यक",
+                
+                crop4Name: "द्राक्ष टोमॅटो",
+                crop4Status: "निरोगी",
+                crop4Variety: "जात: 'सांता एफ१' (संकरित)",
+                crop4Planted: "लागवड: 28 दिवसांपूर्वी",
+                crop4Area: "क्षेत्र: 0.4 एकर",
+                crop4Water: "पुढील सिंचन: आज",
+                crop4Stage: "फुलोऱ्याची अवस्था",
+                crop4Progress: "वाढ: 45%",
+                crop4Tip: "फळ धरायला सातत्यपूर्ण ओलावा आवश्यक",
+                
+                crop5Name: "पारंपरिक मिश्रण",
+                crop5Status: "चांगले",
+                crop5Variety: "जात: 'चेरोकी पर्पल', 'ग्रीन जेब्रा'",
+                crop5Planted: "लागवड: 55 दिवसांपूर्वी",
+                crop5Area: "क्षेत्र: 0.35 एकर",
+                crop5Water: "पुढील सिंचन: 3 दिवस",
+                crop5Color: "अद्वितीय रंग पिकत आहेत",
+                crop5Progress: "रंग विकास: 50%",
+                crop5Tip: "वरून पाणी देऊ नका - बुरशीजन्य समस्या टाळते"
+            }
+        };
+
+        // Get saved language or default to English
+const savedLang = localStorage.getItem('agriMitraLang') || 'en';
+
+// Set the language selector to saved value
+document.getElementById('languageSelect').value = savedLang;
+
+// Update all content to saved language
+updateContentLanguage(savedLang);
+
+// When language changes, save to localStorage AND update all content
+document.getElementById('languageSelect').addEventListener('change', function(e) {
+    const newLang = e.target.value;
+    
+    // Save to localStorage
+    localStorage.setItem('agriMitraLang', newLang);
+    
+    // Update all content on current page
+    updateContentLanguage(newLang);
+    
+    // Optional: Show notification
+    showNotification(`Language changed to ${getLanguageName(newLang)}`, 'success');
+});
+
+// Helper function to get language name
+function getLanguageName(lang) {
+    const names = {
+        'en': 'English',
+        'hi': 'हिन्दी',
+        'ta': 'தமிழ்',
+        'te': 'తెలుగు',
+        'kn': 'ಕನ್ನಡ',
+        'mr': 'मराठी'
+    };
+    return names[lang] || 'English';
+}
+        function updateCropsLanguage(lang) {
+            const t = cropsTranslations[lang];
+            if (!t) return;
+            
+            // Navbar
+            document.getElementById('navHome').textContent = t.home;
+            document.getElementById('navFeatures').textContent = t.features;
+            document.getElementById('navAbout').textContent = t.about;
+            document.getElementById('navContact').textContent = t.contact;
+            
+            // Page title & subtitle
+            document.getElementById('pageTitle').textContent = t.pageTitle;
+            document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+            
+            // Crop 1
+            document.getElementById('crop1Name').textContent = t.crop1Name;
+            document.getElementById('crop1Status').textContent = t.crop1Status;
+            document.getElementById('crop1Variety').textContent = t.crop1Variety;
+            document.getElementById('crop1Planted').textContent = t.crop1Planted;
+            document.getElementById('crop1Area').textContent = t.crop1Area;
+            document.getElementById('crop1Water').textContent = t.crop1Water;
+            document.getElementById('crop1Harvest').textContent = t.crop1Harvest;
+            document.getElementById('crop1Progress').innerHTML = t.crop1Progress.replace('60%', '60%');
+            document.getElementById('crop1Tip').textContent = t.crop1Tip;
+            
+            // Crop 2
+            document.getElementById('crop2Name').textContent = t.crop2Name;
+            document.getElementById('crop2Status').textContent = t.crop2Status;
+            document.getElementById('crop2Variety').textContent = t.crop2Variety;
+            document.getElementById('crop2Planted').textContent = t.crop2Planted;
+            document.getElementById('crop2Area').textContent = t.crop2Area;
+            document.getElementById('crop2Water').textContent = t.crop2Water;
+            document.getElementById('crop2Harvest').textContent = t.crop2Harvest;
+            document.getElementById('crop2Progress').innerHTML = t.crop2Progress.replace('85%', '85%');
+            document.getElementById('crop2Tip').textContent = t.crop2Tip;
+            
+            // Crop 3
+            document.getElementById('crop3Name').textContent = t.crop3Name;
+            document.getElementById('crop3Status').textContent = t.crop3Status;
+            document.getElementById('crop3Variety').textContent = t.crop3Variety;
+            document.getElementById('crop3Planted').textContent = t.crop3Planted;
+            document.getElementById('crop3Area').textContent = t.crop3Area;
+            document.getElementById('crop3Pest').textContent = t.crop3Pest;
+            document.getElementById('crop3Weight').textContent = t.crop3Weight;
+            document.getElementById('crop3Progress').innerHTML = t.crop3Progress.replace('70%', '70%');
+            document.getElementById('crop3Tip').textContent = t.crop3Tip;
+            
+            // Crop 4
+            document.getElementById('crop4Name').textContent = t.crop4Name;
+            document.getElementById('crop4Status').textContent = t.crop4Status;
+            document.getElementById('crop4Variety').textContent = t.crop4Variety;
+            document.getElementById('crop4Planted').textContent = t.crop4Planted;
+            document.getElementById('crop4Area').textContent = t.crop4Area;
+            document.getElementById('crop4Water').textContent = t.crop4Water;
+            document.getElementById('crop4Stage').textContent = t.crop4Stage;
+            document.getElementById('crop4Progress').innerHTML = t.crop4Progress.replace('45%', '45%');
+            document.getElementById('crop4Tip').textContent = t.crop4Tip;
+            
+            // Crop 5
+            document.getElementById('crop5Name').textContent = t.crop5Name;
+            document.getElementById('crop5Status').textContent = t.crop5Status;
+            document.getElementById('crop5Variety').textContent = t.crop5Variety;
+            document.getElementById('crop5Planted').textContent = t.crop5Planted;
+            document.getElementById('crop5Area').textContent = t.crop5Area;
+            document.getElementById('crop5Water').textContent = t.crop5Water;
+            document.getElementById('crop5Color').textContent = t.crop5Color;
+            document.getElementById('crop5Progress').innerHTML = t.crop5Progress.replace('50%', '50%');
+            document.getElementById('crop5Tip').textContent = t.crop5Tip;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = sessionStorage.getItem('agriMitraUser');
+            if (!userData) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const langSelect = document.getElementById('languageSelect');
+            const savedLang = localStorage.getItem('agriMitraLang') || 'en';
+            langSelect.value = savedLang;
+            updateCropsLanguage(savedLang);
+            
+            langSelect.addEventListener('change', function(e) {
+                updateCropsLanguage(e.target.value);
+                localStorage.setItem('agriMitraLang', e.target.value);
+            });
+        });
+    </script>
+    <script src="js/auth-check.js"></script>
+</body>
+</html>

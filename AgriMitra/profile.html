@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - AgriMitra</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* SIMPLE PROFILE STYLES - NORMAL SIZES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e9 100%);
+        }
+        
+        .profile-page {
+            padding: 100px 1rem 2rem;
+            min-height: 100vh;
+        }
+        
+        .profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Profile Card - Simple */
+        .profile-simple-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        
+        .profile-simple-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.8rem;
+        }
+        
+        .profile-simple-avatar i {
+            font-size: 2.2rem;
+            color: white;
+        }
+        
+        .profile-simple-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #263238;
+            margin-bottom: 0.2rem;
+        }
+        
+        .profile-simple-username {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-simple-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-simple-location {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .profile-simple-location i {
+            color: #2e7d32;
+            margin-right: 0.3rem;
+        }
+        
+        /* Stats - Simple Grid */
+        .stats-simple-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-simple-item {
+            background: white;
+            padding: 0.8rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+        
+        .stat-simple-item i {
+            font-size: 1.2rem;
+            color: #2e7d32;
+            margin-bottom: 0.2rem;
+        }
+        
+        .stat-simple-item h3 {
+            font-size: 1.2rem;
+            color: #263238;
+            margin: 0.1rem 0;
+        }
+        
+        .stat-simple-item p {
+            color: #666;
+            font-size: 0.75rem;
+        }
+        
+        /* Settings - Simple */
+        .settings-simple-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .settings-simple-title {
+            font-size: 1.1rem;
+            color: #263238;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .settings-simple-title i {
+            color: #2e7d32;
+            margin-right: 0.5rem;
+        }
+        
+        .settings-simple-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+        }
+        
+        .setting-simple-btn {
+            padding: 0.7rem;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #333;
+            width: 100%;
+        }
+        
+        .setting-simple-btn i {
+            color: #2e7d32;
+            font-size: 0.9rem;
+        }
+        
+        .logout-simple-btn {
+            background: #ffebee;
+            color: #f44336;
+        }
+        
+        .logout-simple-btn i {
+            color: #f44336;
+        }
+        
+        /* Language selector fix */
+        .language-selector select {
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-simple-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>AgriMitra</span>
+            </div>
+            <div class="nav-links">
+                <a href="home.html#home" id="navHome">Home</a>
+                <a href="home.html#features" id="navFeatures">Features</a>
+                <a href="home.html#about" id="navAbout">About</a>
+                <a href="home.html#contact" id="navContact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="mr">मराठी</option>
+                    </select>
+                </div>
+                <div id="profileSection" class="profile-section"></div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="profile-page">
+        <div class="profile-container">
+            <!-- Simple Profile Card -->
+            <div class="profile-simple-card">
+                <div class="profile-simple-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h1 class="profile-simple-name" id="profileName">adifa</h1>
+                <p class="profile-simple-username" id="profileUsername">@adifa</p>
+                <div class="profile-simple-badge" id="profileBadge">
+                    <i class="fas fa-check-circle"></i> Premium Farmer
+                </div>
+                <p class="profile-simple-location" id="profileLocation">
+                    <i class="fas fa-map-marker-alt"></i> 
+                    <span id="locationText">Lucknow, Uttar Pradesh</span>
+                </p>
+            </div>
+            
+            <!-- Simple Stats -->
+            <div class="stats-simple-grid">
+                <div class="stat-simple-item">
+                    <i class="fas fa-seedling"></i>
+                    <h3 id="statCrops">5</h3>
+                    <p id="statCropsLabel">Active Crops</p>
+                </div>
+                <div class="stat-simple-item">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3 id="statTasks">3</h3>
+                    <p id="statTasksLabel">Tasks Today</p>
+                </div>
+                <div class="stat-simple-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <h3 id="statReturns">₹45K</h3>
+                    <p id="statReturnsLabel">Returns</p>
+                </div>
+            </div>
+            
+            <!-- Simple Settings -->
+            <div class="settings-simple-card">
+                <h2 class="settings-simple-title">
+                    <i class="fas fa-cog"></i> <span id="settingsTitle">Account Settings</span>
+                </h2>
+                <div class="settings-simple-grid">
+                    <button class="setting-simple-btn" onclick="alert('Coming soon!')">
+                        <i class="fas fa-user-edit"></i> <span id="btnEditProfile">Edit Profile</span>
+                    </button>
+                    <button class="setting-simple-btn" onclick="alert('Coming soon!')">
+                        <i class="fas fa-language"></i> <span id="btnLanguage">Language</span>
+                    </button>
+                    <button class="setting-simple-btn" onclick="alert('Coming soon!')">
+                        <i class="fas fa-bell"></i> <span id="btnNotifications">Notifications</span>
+                    </button>
+                    <button class="setting-simple-btn" onclick="alert('Coming soon!')">
+                        <i class="fas fa-tractor"></i> <span id="btnFarmDetails">Farm Details</span>
+                    </button>
+                    <button class="setting-simple-btn" onclick="alert('Coming soon!')">
+                        <i class="fas fa-credit-card"></i> <span id="btnPayments">Payments</span>
+                    </button>
+                    <button class="setting-simple-btn" onclick="alert('Coming soon!')">
+                        <i class="fas fa-headset"></i> <span id="btnSupport">Support</span>
+                    </button>
+                    <button class="setting-simple-btn logout-simple-btn" onclick="logout()" style="grid-column: span 2;">
+                        <i class="fas fa-sign-out-alt"></i> <span id="btnLogout">Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Simple translations
+        const profileSimpleTranslations = {
+            en: {
+                home: "Home", features: "Features", about: "About", contact: "Contact",
+                premiumFarmer: "Premium Farmer", location: "Lucknow, Uttar Pradesh",
+                activeCrops: "Active Crops", tasksToday: "Tasks Today", returns: "Returns",
+                settingsTitle: "Account Settings", editProfile: "Edit Profile",
+                language: "Language", notifications: "Notifications", farmDetails: "Farm Details",
+                payments: "Payments", support: "Support", logout: "Logout"
+            },
+            hi: {
+                home: "होम", features: "विशेषताएं", about: "हमारे बारे में", contact: "संपर्क",
+                premiumFarmer: "प्रीमियम किसान", location: "लखनऊ, उत्तर प्रदेश",
+                activeCrops: "सक्रिय फसलें", tasksToday: "आज के कार्य", returns: "रिटर्न",
+                settingsTitle: "खाता सेटिंग्स", editProfile: "प्रोफाइल संपादित करें",
+                language: "भाषा", notifications: "सूचनाएं", farmDetails: "खेत का विवरण",
+                payments: "भुगतान", support: "सहायता", logout: "लॉगआउट"
+            },
+            ta: {
+                home: "முகப்பு", features: "அம்சங்கள்", about: "எங்களைப் பற்றி", contact: "தொடர்பு",
+                premiumFarmer: "பிரீமியம் விவசாயி", location: "லக்னோ, உத்தரப் பிரதேசம்",
+                activeCrops: "செயலில் உள்ள பயிர்கள்", tasksToday: "இன்றைய பணிகள்", returns: "வருமானம்",
+                settingsTitle: "கணக்கு அமைப்புகள்", editProfile: "சுயவிவரத்தைத் திருத்து",
+                language: "மொழி", notifications: "அறிவிப்புகள்", farmDetails: "பண்ணை விவரங்கள்",
+                payments: "கட்டணங்கள்", support: "ஆதரவு", logout: "வெளியேறு"
+            },
+            te: {
+                home: "హోమ్", features: "ఫీచర్లు", about: "మా గురించి", contact: "సంప్రదించండి",
+                premiumFarmer: "ప్రీమియం రైతు", location: "లక్నో, ఉత్తర ప్రదేశ్",
+                activeCrops: "క్రియాశీల పంటలు", tasksToday: "నేటి పనులు", returns: "రాబడి",
+                settingsTitle: "ఖాతా సెట్టింగ్‌లు", editProfile: "ప్రొఫైల్‌ని సవరించండి",
+                language: "భాష", notifications: "నోటిఫికేషన్‌లు", farmDetails: "వ్యవసాయ వివరాలు",
+                payments: "చెల్లింపులు", support: "మద్దతు", logout: "లాగ్అవుట్"
+            },
+            kn: {
+                home: "ಮುಖಪುಟ", features: "ವೈಶಿಷ್ಟ್ಯಗಳು", about: "ನಮ್ಮ ಬಗ್ಗೆ", contact: "ಸಂಪರ್ಕ",
+                premiumFarmer: "ಪ್ರೀಮಿಯಂ ರೈತ", location: "ಲಕ್ನೋ, ಉತ್ತರ ಪ್ರದೇಶ",
+                activeCrops: "ಸಕ್ರಿಯ ಬೆಳೆಗಳು", tasksToday: "ಇಂದಿನ ಕಾರ್ಯಗಳು", returns: "ಆದಾಯ",
+                settingsTitle: "ಖಾತೆ ಸೆಟ್ಟಿಂಗ್‌ಗಳು", editProfile: "ಪ್ರೊಫೈಲ್ ಸಂಪಾದಿಸಿ",
+                language: "ಭಾಷೆ", notifications: "ಅಧಿಸೂಚನೆಗಳು", farmDetails: "ಫಾರ್ಮ್ ವಿವರಗಳು",
+                payments: "ಪಾವತಿಗಳು", support: "ಬೆಂಬಲ", logout: "ಲಾಗ್ಔಟ್"
+            },
+            mr: {
+                home: "मुखपृष्ठ", features: "वैशिष्ट्ये", about: "आमच्याबद्दल", contact: "संपर्क",
+                premiumFarmer: "प्रीमियम शेतकरी", location: "लखनौ, उत्तर प्रदेश",
+                activeCrops: "सक्रिय पिके", tasksToday: "आजची कामे", returns: "परतावा",
+                settingsTitle: "खाते सेटिंग्ज", editProfile: "प्रोफाइल संपादित करा",
+                language: "भाषा", notifications: "सूचना", farmDetails: "शेत तपशील",
+                payments: "देयके", support: "मदत", logout: "लॉगआउट"
+            }
+        };
+        
+
+        function updateSimpleProfileLanguage(lang) {
+            const t = profileSimpleTranslations[lang];
+            if (!t) return;
+            
+            document.getElementById('navHome').textContent = t.home;
+            document.getElementById('navFeatures').textContent = t.features;
+            document.getElementById('navAbout').textContent = t.about;
+            document.getElementById('navContact').textContent = t.contact;
+            
+            document.getElementById('profileBadge').innerHTML = `<i class="fas fa-check-circle"></i> ${t.premiumFarmer}`;
+            document.getElementById('locationText').textContent = t.location;
+            
+            document.getElementById('statCropsLabel').textContent = t.activeCrops;
+            document.getElementById('statTasksLabel').textContent = t.tasksToday;
+            document.getElementById('statReturnsLabel').textContent = t.returns;
+            
+            document.getElementById('settingsTitle').textContent = t.settingsTitle;
+            document.getElementById('btnEditProfile').textContent = t.editProfile;
+            document.getElementById('btnLanguage').textContent = t.language;
+            document.getElementById('btnNotifications').textContent = t.notifications;
+            document.getElementById('btnFarmDetails').textContent = t.farmDetails;
+            document.getElementById('btnPayments').textContent = t.payments;
+            document.getElementById('btnSupport').textContent = t.support;
+            document.getElementById('btnLogout').textContent = t.logout;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = sessionStorage.getItem('agriMitraUser');
+            if (userData) {
+                const user = JSON.parse(userData);
+                document.getElementById('profileName').textContent = user.name || 'adifa';
+                document.getElementById('profileUsername').textContent = '@' + (user.username || 'adifa');
+            } else {
+                window.location.href = 'index.html';
+            }
+            
+            const langSelect = document.getElementById('languageSelect');
+            const savedLang = localStorage.getItem('agriMitraLang') || 'en';
+            langSelect.value = savedLang;
+            updateSimpleProfileLanguage(savedLang);
+            
+            langSelect.addEventListener('change', function(e) {
+                updateSimpleProfileLanguage(e.target.value);
+                localStorage.setItem('agriMitraLang', e.target.value);
+            });
+        });
+
+        window.logout = function() {
+            sessionStorage.removeItem('agriMitraUser');
+            alert('Logged out successfully!');
+            window.location.href = 'index.html';
+        }
+    </script>
+    <script src="js/auth-check.js"></script>
+</body>
+</html>

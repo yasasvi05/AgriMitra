@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriMitra - Your Smart Farming Assistant</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Image Placeholders */
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+            color: #666;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hero-placeholder {
+            height: 400px;
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+        }
+
+        .hero-placeholder i {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-placeholder h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-placeholder {
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .voice-placeholder {
+            background: linear-gradient(135deg, #2196F3, #64B5F6);
+            color: white;
+        }
+
+        .disease-placeholder {
+            background: linear-gradient(135deg, #f44336, #ef5350);
+            color: white;
+        }
+
+        .market-placeholder {
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            color: white;
+        }
+
+        .advice-placeholder {
+            background: linear-gradient(135deg, #FF9800, #FFB74D);
+            color: white;
+        }
+
+        .feature-demo {
+            margin-top: 1rem;
+        }
+
+        /* AgriBot Button Styles */
+        .agribot-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .agribot-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border: none;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .agribot-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .agribot-btn i {
+            font-size: 32px;
+        }
+
+        .bot-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(46, 204, 113, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .agribot-tooltip {
+            position: absolute;
+            right: 80px;
+            background: white;
+            color: #333;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .agribot-btn:hover .agribot-tooltip {
+            opacity: 1;
+        }
+
+        /* Voice Assistant Card */
+        .voice-assistant-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            transition: transform 0.3s;
+        }
+
+        .voice-assistant-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .voice-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .voice-avatar i {
+            font-size: 40px;
+            color: white;
+        }
+
+        .voice-controls {
+            text-align: center;
+        }
+
+        .voice-btn {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .voice-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .pulse-animation {
+            animation: btnPulse 2s infinite;
+        }
+
+        @keyframes btnPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(46, 204, 113, 0);
+            }
+        }
+
+        .voice-status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .recent-commands {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .command-chip {
+            background: #f0f0f0;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .command-chip:hover {
+            background: #2ecc71;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            animation: slideIn 0.3s;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .close:hover {
+            color: #333;
+        }
+
+        .voice-interface {
+            text-align: center;
+        }
+
+        .voice-wave {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin: 30px 0;
+        }
+
+        .voice-wave span {
+            width: 8px;
+            height: 30px;
+            background: #2ecc71;
+            border-radius: 4px;
+            animation: wave 1s infinite ease-in-out;
+        }
+
+        .voice-wave span:nth-child(1) { animation-delay: 0s; }
+        .voice-wave span:nth-child(2) { animation-delay: 0.2s; }
+        .voice-wave span:nth-child(3) { animation-delay: 0.4s; }
+        .voice-wave span:nth-child(4) { animation-delay: 0.6s; }
+        .voice-wave span:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes wave {
+            0%, 100% { height: 30px; }
+            50% { height: 60px; }
+        }
+
+        .voice-text {
+            font-size: 18px;
+            color: #333;
+            margin: 20px 0;
+            min-height: 60px;
+        }
+
+        .voice-response {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: #666;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .stop-voice-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .stop-voice-btn:hover {
+            background: #d32f2f;
+        }
+
+        /* Disease Detection Result Styles */
+        .disease-result {
+            text-align: left;
+            padding: 0.5rem;
+        }
+        
+        .disease-result h3 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .result-card {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #263238;
+            margin-bottom: 0.3rem;
+        }
+        
+        .result-value {
+            color: #546e7a;
+            margin-bottom: 0.8rem;
+        }
+        
+        .confidence-high {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        
+        .confidence-medium {
+            color: #ff9800;
+            font-weight: 600;
+        }
+        
+        .confidence-low {
+            color: #f44336;
+            font-weight: 600;
+        }
+        
+        .section-divider {
+            border-top: 1px solid #e0e0e0;
+            margin: 1rem 0;
+        }
+        
+        .pesticide-box {
+            background: #e8f5e9;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            border-left: 4px solid #2e7d32;
+        }
+        
+        .organic-box {
+            background: #fff8e1;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2e7d32;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background: #ffebee;
+            color: #f44336;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .upload-area {
+            border: 2px dashed #4caf50;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            background: rgba(76, 175, 80, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>AgriMitra</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="active" id="navHome">Home</a>
+                <a href="#features" id="navFeatures">Features</a>
+                <a href="#about" id="navAbout">About</a>
+                <a href="#contact" id="navContact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <div class="language-selector">
+                    <select id="languageSelect">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="ta">தமிழ்</option>
+                        <option value="te">తెలుగు</option>
+                        <option value="kn">ಕನ್ನಡ</option>
+                        <option value="mr">मराठी</option>
+                    </select>
+                </div>
+                <div id="profileSection" class="profile-section">
+                    <!-- This will be dynamically filled by auth-check.js -->
+                </div>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Voice Assistant -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1><span id="heroTitle1">Your Smart</span> <span class="highlight" id="heroTitle2">Farming Assistant</span></h1>
+                <p id="heroDescription">Instant agricultural expertise in your language. Detect diseases, check market prices, and get personalized advice - all through voice interaction.</p>
+                
+                <!-- Voice Assistant Card -->
+                <div class="voice-assistant-card">
+                    <div class="voice-avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="voice-controls">
+                        <button id="startListening" class="voice-btn pulse-animation">
+                            <i class="fas fa-microphone"></i>
+                            <span id="askButton">Ask AgriMitra</span>
+                        </button>
+                        <div class="voice-status" id="voiceStatus">
+                            <span id="voiceStatusText">Tap to speak in your language</span>
+                        </div>
+                    </div>
+                    <div class="recent-commands">
+                        <span class="command-chip" id="command1">"Wheat disease?"</span>
+                        <span class="command-chip" id="command2">"Tomato price"</span>
+                        <span class="command-chip" id="command3">"Fertilizer advice"</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-placeholder hero-placeholder">
+                    <i class="fas fa-seedling"></i>
+                    <h3>AgriMitra</h3>
+                    <p id="heroPlaceholderText">Your Smart Farming Assistant</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title"><span id="featuresTitle1">Smart Features for</span> <span id="featuresTitle2">Smart Farming</span></h2>
+            <div class="features-grid">
+                <!-- Feature 1: Voice Interaction -->
+                <div class="feature-card">
+                    <div class="feature-icon voice-bg">
+                        <i class="fas fa-microphone-alt"></i>
+                    </div>
+                    <h3 id="feature1Title">Voice-Based Interaction</h3>
+                    <p id="feature1Desc">Speak in your regional language and get instant responses. No typing needed - just ask!</p>
+                    <div class="feature-demo">
+                        <div class="image-placeholder feature-placeholder voice-placeholder">
+                            <i class="fas fa-microphone-alt"></i>
+                            <span id="feature1Placeholder">Speak in 6 Languages</span>
+                        </div>
+                        <button class="demo-btn" onclick="showVoiceDemo()" style="margin-top:1rem;">
+                            <i class="fas fa-play"></i> <span id="feature1Btn">Try Voice Assistant</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feature 2: Crop Disease Detection -->
+                <div class="feature-card">
+                    <div class="feature-icon disease-bg">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 id="feature2Title">Crop Disease Detection</h3>
+                    <p id="feature2Desc">Upload a photo of your crop and our AI will detect diseases and suggest treatments.</p>
+                    <div class="feature-demo">
+                        <div class="image-placeholder feature-placeholder disease-placeholder">
+                            <i class="fas fa-leaf"></i>
+                            <span id="feature2Placeholder">AI Disease Detection</span>
+                        </div>
+                        <div class="upload-area" id="uploadArea" style="margin-top:1rem;">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="uploadText">Upload Photo</span>
+                            <input type="file" id="cropImage" accept="image/*" hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Market Prices -->
+                <div class="feature-card">
+                    <div class="feature-icon market-bg">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 id="feature3Title">Mandi Prices & Predictions</h3>
+                    <p id="feature3Desc">Real-time market prices and AI-powered price predictions for better selling decisions.</p>
+                    <div class="feature-demo">
+                        <div class="image-placeholder feature-placeholder market-placeholder">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span id="feature3Placeholder">Live Market Prices</span>
+                        </div>
+                        <div class="price-preview" style="margin-top:1rem;">
+                            <div class="crop-price">
+                                <span id="wheat">Wheat</span>
+                                <span class="price">₹2425/quintal</span>
+                            </div>
+                            <div class="crop-price">
+                                <span id="rice">Rice</span>
+                                <span class="price">₹3100/quintal</span>
+                            </div>
+                            <div class="crop-price">
+                                <span id="tomato">Tomato</span>
+                                <span class="price">₹1800/quintal</span>
+                            </div>
+                            <button class="view-all-btn" id="viewAllPrices">View All Prices →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 4: Personalized Advice -->
+                <div class="feature-card">
+                    <div class="feature-icon advice-bg">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3 id="feature4Title">Personalized Advice</h3>
+                    <p id="feature4Desc">Get customized recommendations based on your farm history and crop data.</p>
+                    <div class="feature-demo">
+                        <div class="image-placeholder feature-placeholder advice-placeholder">
+                            <i class="fas fa-tractor"></i>
+                            <span id="feature4Placeholder">Personalized Farm Advice</span>
+                        </div>
+                        <div class="advice-preview" style="margin-top:1rem;">
+                            <div class="advice-item">
+                                <i class="fas fa-tint"></i>
+                                <span id="advice1">Irrigation needed in 2 days</span>
+                            </div>
+                            <div class="advice-item">
+                                <i class="fas fa-bug"></i>
+                                <span id="advice2">Pest control recommended</span>
+                            </div>
+                            <button class="view-all-btn" id="viewAllAdvice">View All Advice →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voice Interaction Modal (Also used for Disease Results) -->
+    <div id="voiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="voice-interface">
+                <div class="voice-wave">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="voice-text" id="voiceText">
+                    Listening...
+                </div>
+                <div class="voice-response" id="voiceResponse"></div>
+                <button class="stop-voice-btn" id="stopBtnElement">
+                    <i class="fas fa-stop"></i> <span id="stopBtn">Stop</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating AgriBot Button (Only ONE AgriBot) -->
+    <div class="agribot-fab">
+        <button class="agribot-btn" onclick="openAgriBot()">
+            <div class="bot-pulse"></div>
+            <i class="fas fa-robot"></i>
+            <div class="agribot-tooltip">Chat with AgriBot</div>
+        </button>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2 id="aboutTitle">About AgriMitra</h2>
+                <p id="aboutDesc">AgriMitra is an intelligent digital assistant designed specifically for small-scale farmers. We understand the challenges you face - from crop diseases to market uncertainties. Our mission is to bring expert agricultural guidance to your fingertips, in your language, through simple voice commands.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label" id="stat1">Farmers Helped</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label" id="stat2">Languages</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label" id="stat3">Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AgriMitra</h3>
+                    <p id="footerDesc">Your smart farming assistant for better yields and higher profits.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 id="quickLinks">Quick Links</h3>
+                    <ul>
+                        <li><a href="#home" id="footerHome">Home</a></li>
+                        <li><a href="#features" id="footerFeatures">Features</a></li>
+                        <li><a href="#about" id="footerAbout">About</a></li>
+                        <li><a href="#contact" id="footerContact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 id="contactUs">Contact Us</h3>
+                    <p><i class="fas fa-phone"></i> <span id="tollFree">Toll Free: 1800-123-AGRI</span></p>
+                    <p><i class="fas fa-envelope"></i> <span id="email">support@agrimitra.com</span></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 AgriMitra. <span id="rights">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Complete Home Page Translations for ALL 6 Languages
+        const homeTranslations = {
+            en: {
+                home: "Home", features: "Features", about: "About", contact: "Contact",
+                heroTitle1: "Your Smart", heroTitle2: "Farming Assistant",
+                heroDescription: "Instant agricultural expertise in your language. Detect diseases, check market prices, and get personalized advice - all through voice interaction.",
+                askButton: "Ask AgriMitra", voiceStatusText: "Tap to speak in your language",
+                command1: '"Wheat disease?"', command2: '"Tomato price"', command3: '"Fertilizer advice"',
+                heroPlaceholderText: "Your Smart Farming Assistant",
+                featuresTitle1: "Smart Features for", featuresTitle2: "Smart Farming",
+                feature1Title: "Voice-Based Interaction", feature1Desc: "Speak in your regional language and get instant responses. No typing needed - just ask!",
+                feature1Placeholder: "Speak in 6 Languages", feature1Btn: "Try Voice Assistant",
+                feature2Title: "Crop Disease Detection", feature2Desc: "Upload a photo of your crop and our AI will detect diseases and suggest treatments.",
+                feature2Placeholder: "AI Disease Detection", uploadText: "Upload Photo",
+                feature3Title: "Mandi Prices & Predictions", feature3Desc: "Real-time market prices and AI-powered price predictions for better selling decisions.",
+                feature3Placeholder: "Live Market Prices", wheat: "Wheat", rice: "Rice", tomato: "Tomato",
+                viewAllPrices: "View All Prices →",
+                feature4Title: "Personalized Advice", feature4Desc: "Get customized recommendations based on your farm history and crop data.",
+                feature4Placeholder: "Personalized Farm Advice", advice1: "Irrigation needed in 2 days",
+                advice2: "Pest control recommended", viewAllAdvice: "View All Advice →",
+                stopBtn: "Stop",
+                aboutTitle: "About AgriMitra", aboutDesc: "AgriMitra is an intelligent digital assistant designed specifically for small-scale farmers. We understand the challenges you face - from crop diseases to market uncertainties. Our mission is to bring expert agricultural guidance to your fingertips, in your language, through simple voice commands.",
+                stat1: "Farmers Helped", stat2: "Languages", stat3: "Support",
+                footerDesc: "Your smart farming assistant for better yields and higher profits.",
+                quickLinks: "Quick Links", footerHome: "Home", footerFeatures: "Features",
+                footerAbout: "About", footerContact: "Contact", contactUs: "Contact Us",
+                tollFree: "Toll Free: 1800-123-AGRI", email: "support@agrimitra.com", rights: "All rights reserved."
+            },
+            hi: {
+                home: "होम", features: "विशेषताएं", about: "हमारे बारे में", contact: "संपर्क",
+                heroTitle1: "आपका स्मार्ट", heroTitle2: "कृषि सहायक",
+                heroDescription: "आपकी भाषा में तुरंत कृषि विशेषज्ञता। रोगों का पता लगाएं, बाजार मूल्य जांचें और व्यक्तिगत सलाह पाएं - सभी आवाज इंटरैक्शन के माध्यम से।",
+                askButton: "एग्रीमित्र से पूछें", voiceStatusText: "अपनी भाषा में बोलने के लिए टैप करें",
+                command1: '"गेहूं रोग?"', command2: '"टमाटर भाव"', command3: '"खाद सलाह"',
+                heroPlaceholderText: "आपका स्मार्ट कृषि सहायक",
+                featuresTitle1: "स्मार्ट खेती के लिए", featuresTitle2: "स्मार्ट सुविधाएं",
+                feature1Title: "आवाज-आधारित बातचीत", feature1Desc: "अपनी क्षेत्रीय भाषा में बोलें और तुरंत जवाब पाएं। टाइपिंग की जरूरत नहीं - बस पूछें!",
+                feature1Placeholder: "6 भाषाओं में बोलें", feature1Btn: "आवाज सहायक आज़माएं",
+                feature2Title: "फसल रोग का पता लगाना", feature2Desc: "अपनी फसल की फोटो अपलोड करें और हमारा AI रोगों का पता लगाकर उपचार सुझाएगा।",
+                feature2Placeholder: "AI रोग पहचान", uploadText: "फोटो अपलोड करें",
+                feature3Title: "मंडी भाव और भविष्यवाणी", feature3Desc: "वास्तविक समय बाजार मूल्य और बेहतर विक्री निर्णयों के लिए AI-आधारित मूल्य भविष्यवाणी।",
+                feature3Placeholder: "लाइव बाजार भाव", wheat: "गेहूं", rice: "चावल", tomato: "टमाटर",
+                viewAllPrices: "सभी भाव देखें →",
+                feature4Title: "व्यक्तिगत सलाह", feature4Desc: "अपने खेत के इतिहास और फसल डेटा के आधार पर कस्टमाइज़्ड सिफारिशें पाएं।",
+                feature4Placeholder: "व्यक्तिगत खेत सलाह", advice1: "2 दिनों में सिंचाई आवश्यक",
+                advice2: "कीट नियंत्रण अनुशंसित", viewAllAdvice: "सभी सलाह देखें →",
+                stopBtn: "बंद करें",
+                aboutTitle: "एग्रीमित्र के बारे में", aboutDesc: "एग्रीमित्र एक बुद्धिमान डिजिटल सहायक है जो विशेष रूप से छोटे किसानों के लिए डिज़ाइन किया गया है। हम आपके सामने आने वाली चुनौतियों को समझते हैं - फसल रोगों से लेकर बाजार की अनिश्चितताओं तक। हमारा मिशन सरल आवाज कमांड के माध्यम से विशेषज्ञ कृषि मार्गदर्शन आपकी उंगलियों पर, आपकी भाषा में लाना है।",
+                stat1: "किसान मदद पा चुके", stat2: "भाषाएं", stat3: "सहायता",
+                footerDesc: "बेहतर पैदावार और अधिक लाभ के लिए आपका स्मार्ट कृषि सहायक।",
+                quickLinks: "त्वरित लिंक", footerHome: "होम", footerFeatures: "विशेषताएं",
+                footerAbout: "हमारे बारे में", footerContact: "संपर्क", contactUs: "संपर्क करें",
+                tollFree: "टोल फ्री: 1800-123-AGRI", email: "support@agrimitra.com", rights: "सर्वाधिकार सुरक्षित।"
+            },
+            ta: {
+                home: "முகப்பு", features: "அம்சங்கள்", about: "எங்களைப் பற்றி", contact: "தொடர்பு",
+                heroTitle1: "உங்கள் ஸ்மார்ட்", heroTitle2: "விவசாய உதவியாளர்",
+                heroDescription: "உங்கள் மொழியில் உடனடி விவசாய நிபுணத்துவம். நோய்களைக் கண்டறியவும், சந்தை விலைகளைச் சரிபார்க்கவும், தனிப்பயனாக்கப்பட்ட ஆலோசனையைப் பெறவும் - அனைத்தும் குரல் மூலம்.",
+                askButton: "அக்ரிமித்ராவிடம் கேளுங்கள்", voiceStatusText: "உங்கள் மொழியில் பேச தட்டவும்",
+                command1: '"கோதுமை நோய்?"', command2: '"தக்காளி விலை"', command3: '"உர ஆலோசனை"',
+                heroPlaceholderText: "உங்கள் ஸ்மார்ட் விவசாய உதவியாளர்",
+                featuresTitle1: "ஸ்மார்ட் விவசாயத்திற்கான", featuresTitle2: "ஸ்மார்ட் அம்சங்கள்",
+                feature1Title: "குரல் அடிப்படையிலான தொடர்பு", feature1Desc: "உங்கள் பிராந்திய மொழியில் பேசுங்கள் மற்றும் உடனடி பதில்களைப் பெறுங்கள். தட்டச்சு தேவையில்லை - கேளுங்கள்!",
+                feature1Placeholder: "6 மொழிகளில் பேசுங்கள்", feature1Btn: "குரல் உதவியாளரை முயற்சிக்கவும்",
+                feature2Title: "பயிர் நோய் கண்டறிதல்", feature2Desc: "உங்கள் பயிரின் புகைப்படத்தை பதிவேற்றவும், எங்கள் AI நோய்களைக் கண்டறிந்து சிகிச்சைகளை பரிந்துரைக்கும்.",
+                feature2Placeholder: "AI நோய் கண்டறிதல்", uploadText: "புகைப்படத்தை பதிவேற்றவும்",
+                feature3Title: "மண்டி விலைகள் மற்றும் கணிப்புகள்", feature3Desc: "நிகழ்நேர சந்தை விலைகள் மற்றும் சிறந்த விற்பனை முடிவுகளுக்கான AI-இயங்கும் விலை கணிப்புகள்.",
+                feature3Placeholder: "நேரடி சந்தை விலைகள்", wheat: "கோதுமை", rice: "அரிசி", tomato: "தக்காளி",
+                viewAllPrices: "அனைத்து விலைகளையும் காண்க →",
+                feature4Title: "தனிப்பயனாக்கப்பட்ட ஆலோசனை", feature4Desc: "உங்கள் பண்ணை வரலாறு மற்றும் பயிர் தரவின் அடிப்படையில் தனிப்பயனாக்கப்பட்ட பரிந்துரைகளைப் பெறுங்கள்.",
+                feature4Placeholder: "தனிப்பயனாக்கப்பட்ட பண்ணை ஆலோசனை", advice1: "2 நாட்களில் பாசனம் தேவை",
+                advice2: "பூச்சி கட்டுப்பாடு பரிந்துரைக்கப்படுகிறது", viewAllAdvice: "அனைத்து ஆலோசனைகளையும் காண்க →",
+                stopBtn: "நிறுத்து",
+                aboutTitle: "அக்ரிமித்ரா பற்றி", aboutDesc: "அக்ரிமித்ரா என்பது சிறு விவசாயிகளுக்காக சிறப்பாக வடிவமைக்கப்பட்ட ஒரு அறிவார்ந்த டிஜிட்டல் உதவியாளர். பயிர் நோய்கள் முதல் சந்தை நிச்சயமற்ற தன்மைகள் வரை நீங்கள் எதிர்கொள்ளும் சவால்களை நாங்கள் புரிந்துகொள்கிறோம். எங்கள் நோக்கம், எளிய குரல் கட்டளைகள் மூலம் நிபுணர் விவசாய வழிகாட்டுதலை உங்கள் விரல் நுனியில், உங்கள் மொழியில் கொண்டு வருவதாகும்.",
+                stat1: "விவசாயிகள் உதவி பெற்றனர்", stat2: "மொழிகள்", stat3: "ஆதரவு",
+                footerDesc: "சிறந்த விளைச்சல் மற்றும் அதிக லாபத்திற்கான உங்கள் ஸ்மார்ட் விவசாய உதவியாளர்.",
+                quickLinks: "விரைவு இணைப்புகள்", footerHome: "முகப்பு", footerFeatures: "அம்சங்கள்",
+                footerAbout: "எங்களைப் பற்றி", footerContact: "தொடர்பு", contactUs: "எங்களை தொடர்பு கொள்ள",
+                tollFree: "டோல் ஃப்ரீ: 1800-123-AGRI", email: "support@agrimitra.com", rights: "அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
+            },
+            te: {
+                home: "హోమ్", features: "ఫీచర్లు", about: "మా గురించి", contact: "సంప్రదించండి",
+                heroTitle1: "మీ స్మార్ట్", heroTitle2: "వ్యవసాయ సహాయకుడు",
+                heroDescription: "మీ భాషలో తక్షణ వ్యవసాయ నైపుణ్యం. వ్యాధులను గుర్తించండి, మార్కెట్ ధరలను తనిఖీ చేయండి మరియు వ్యక్తిగతీకరించిన సలహాలను పొందండి - అన్నీ వాయిస్ ద్వారా.",
+                askButton: "అగ్రిమిత్రను అడగండి", voiceStatusText: "మీ భాషలో మాట్లాడటానికి నొక్కండి",
+                command1: '"గోధుమ వ్యాధి?"', command2: '"టమాట ధర"', command3: '"ఎరువుల సలహా"',
+                heroPlaceholderText: "మీ స్మార్ట్ వ్యవసాయ సహాయకుడు",
+                featuresTitle1: "స్మార్ట్ వ్యవసాయం కోసం", featuresTitle2: "స్మార్ట్ ఫీచర్లు",
+                feature1Title: "వాయిస్ ఆధారిత సంభాషణ", feature1Desc: "మీ ప్రాంతీయ భాషలో మాట్లాడండి మరియు తక్షణ సమాధానాలు పొందండి. టైపింగ్ అవసరం లేదు - అడగండి!",
+                feature1Placeholder: "6 భాషలలో మాట్లాడండి", feature1Btn: "వాయిస్ అసిస్టెంట్ ప్రయత్నించండి",
+                feature2Title: "పంట వ్యాధి గుర్తింపు", feature2Desc: "మీ పంట ఫోటోను అప్‌లోడ్ చేయండి మరియు మా AI వ్యాధులను గుర్తించి చికిత్సలను సూచిస్తుంది.",
+                feature2Placeholder: "AI వ్యాధి గుర్తింపు", uploadText: "ఫోటో అప్‌లోడ్ చేయండి",
+                feature3Title: "మండీ ధరలు & అంచనాలు", feature3Desc: "నిజ-సమయ మార్కెట్ ధరలు మరియు మెరుగైన అమ్మకాల నిర్ణయాల కోసం AI-ఆధారిత ధర అంచనాలు.",
+                feature3Placeholder: "ప్రత్యక్ష మార్కెట్ ధరలు", wheat: "గోధుమ", rice: "వరి", tomato: "టమాట",
+                viewAllPrices: "అన్ని ధరలు చూడండి →",
+                feature4Title: "వ్యక్తిగతీకరించిన సలహా", feature4Desc: "మీ వ్యవసాయ చరిత్ర మరియు పంట డేటా ఆధారంగా అనుకూలీకరించిన సిఫార్సులను పొందండి.",
+                feature4Placeholder: "వ్యక్తిగతీకరించిన వ్యవసాయ సలహా", advice1: "2 రోజుల్లో నీటి తడి అవసరం",
+                advice2: "తెగులు నియంత్రణ సిఫార్సు చేయబడింది", viewAllAdvice: "అన్ని సలహాలు చూడండి →",
+                stopBtn: "ఆపు",
+                aboutTitle: "అగ్రిమిత్ర గురించి", aboutDesc: "అగ్రిమిత్ర ప్రత్యేకంగా చిన్న-స్థాయి రైతుల కోసం రూపొందించబడిన ఒక తెలివైన డిజిటల్ సహాయకుడు. పంట వ్యాధుల నుండి మార్కెట్ అనిశ్చితుల వరకు మీరు ఎదుర్కొనే సవాళ్లను మేము అర్థం చేసుకున్నాము. సాధారణ వాయిస్ ఆదేశాల ద్వారా నిపుణుల వ్యవసాయ మార్గదర్శకత్వాన్ని మీ చేతివేళ్ల వద్ద, మీ భాషలో అందించడమే మా లక్ష్యం.",
+                stat1: "రైతులు సహాయం పొందారు", stat2: "భాషలు", stat3: "మద్దతు",
+                footerDesc: "మెరుగైన దిగుబడి మరియు అధిక లాభాల కోసం మీ స్మార్ట్ వ్యవసాయ సహాయకుడు.",
+                quickLinks: "త్వరిత లింక్‌లు", footerHome: "హోమ్", footerFeatures: "ఫీచర్లు",
+                footerAbout: "మా గురించి", footerContact: "సంప్రదించండి", contactUs: "మమ్మల్ని సంప్రదించండి",
+                tollFree: "టోల్ ఫ్రీ: 1800-123-AGRI", email: "support@agrimitra.com", rights: "అన్ని హక్కులు రిజర్వ్ చేయబడ్డాయి."
+            },
+            kn: {
+                home: "ಮುಖಪುಟ", features: "ವೈಶಿಷ್ಟ್ಯಗಳು", about: "ನಮ್ಮ ಬಗ್ಗೆ", contact: "ಸಂಪರ್ಕ",
+                heroTitle1: "ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್", heroTitle2: "ಕೃಷಿ ಸಹಾಯಕ",
+                heroDescription: "ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ತಕ್ಷಣದ ಕೃಷಿ ಪರಿಣತಿ. ರೋಗಗಳನ್ನು ಪತ್ತೆ ಮಾಡಿ, ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ವೈಯಕ್ತೀಕರಿಸಿದ ಸಲಹೆಯನ್ನು ಪಡೆಯಿರಿ - ಎಲ್ಲವೂ ಧ್ವನಿ ಮೂಲಕ.",
+                askButton: "ಅಗ್ರಿಮಿತ್ರನನ್ನು ಕೇಳಿ", voiceStatusText: "ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ಮಾತನಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ",
+                command1: '"ಗೋಧಿ ರೋಗ?"', command2: '"ಟೊಮೇಟೊ ಬೆಲೆ"', command3: '"ಗೊಬ್ಬರ ಸಲಹೆ"',
+                heroPlaceholderText: "ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್ ಕೃಷಿ ಸಹಾಯಕ",
+                featuresTitle1: "ಸ್ಮಾರ್ಟ್ ಕೃಷಿಗಾಗಿ", featuresTitle2: "ಸ್ಮಾರ್ಟ್ ವೈಶಿಷ್ಟ್ಯಗಳು",
+                feature1Title: "ಧ್ವನಿ ಆಧಾರಿತ ಸಂವಹನ", feature1Desc: "ನಿಮ್ಮ ಪ್ರಾದೇಶಿಕ ಭಾಷೆಯಲ್ಲಿ ಮಾತನಾಡಿ ಮತ್ತು ತಕ್ಷಣದ ಪ್ರತಿಕ್ರಿಯೆಗಳನ್ನು ಪಡೆಯಿರಿ. ಟೈಪಿಂಗ್ ಅಗತ್ಯವಿಲ್ಲ - ಕೇಳಿ!",
+                feature1Placeholder: "6 ಭಾಷೆಗಳಲ್ಲಿ ಮಾತನಾಡಿ", feature1Btn: "ಧ್ವನಿ ಸಹಾಯಕ ಪ್ರಯತ್ನಿಸಿ",
+                feature2Title: "ಬೆಳೆ ರೋಗ ಪತ್ತೆ", feature2Desc: "ನಿಮ್ಮ ಬೆಳೆಯ ಫೋಟೋವನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ ಮತ್ತು ನಮ್ಮ AI ರೋಗಗಳನ್ನು ಪತ್ತೆ ಮಾಡಿ ಚಿಕಿತ್ಸೆಗಳನ್ನು ಸೂಚಿಸುತ್ತದೆ.",
+                feature2Placeholder: "AI ರೋಗ ಪತ್ತೆ", uploadText: "ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+                feature3Title: "ಮಂಡಿ ಬೆಲೆಗಳು ಮತ್ತು ಮುನ್ನೋಟಗಳು", feature3Desc: "ನೈಜ-ಸಮಯದ ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು ಮತ್ತು ಉತ್ತಮ ಮಾರಾಟ ನಿರ್ಧಾರಗಳಿಗಾಗಿ AI-ಚಾಲಿತ ಬೆಲೆ ಮುನ್ನೋಟಗಳು.",
+                feature3Placeholder: "ನೇರ ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು", wheat: "ಗೋಧಿ", rice: "ಭತ್ತ", tomato: "ಟೊಮೇಟೊ",
+                viewAllPrices: "ಎಲ್ಲಾ ಬೆಲೆಗಳನ್ನು ನೋಡಿ →",
+                feature4Title: "ವೈಯಕ್ತೀಕರಿಸಿದ ಸಲಹೆ", feature4Desc: "ನಿಮ್ಮ ಫಾರ್ಮ್ ಇತಿಹಾಸ ಮತ್ತು ಬೆಳೆ ಡೇಟಾವನ್ನು ಆಧರಿಸಿ ಕಸ್ಟಮೈಸ್ ಮಾಡಿದ ಶಿಫಾರಸುಗಳನ್ನು ಪಡೆಯಿರಿ.",
+                feature4Placeholder: "ವೈಯಕ್ತೀಕರಿಸಿದ ಫಾರ್ಮ್ ಸಲಹೆ", advice1: "2 ದಿನಗಳಲ್ಲಿ ನೀರಾವರಿ ಅಗತ್ಯ",
+                advice2: "ಕೀಟ ನಿಯಂತ್ರಣ ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ", viewAllAdvice: "ಎಲ್ಲಾ ಸಲಹೆಗಳನ್ನು ನೋಡಿ →",
+                stopBtn: "ನಿಲ್ಲಿಸು",
+                aboutTitle: "ಅಗ್ರಿಮಿತ್ರ ಬಗ್ಗೆ", aboutDesc: "ಅಗ್ರಿಮಿತ್ರ ವಿಶೇಷವಾಗಿ ಸಣ್ಣ-ಪ್ರಮಾಣದ ರೈತರಿಗಾಗಿ ವಿನ್ಯಾಸಗೊಳಿಸಲಾದ ಬುದ್ಧಿವಂತ ಡಿಜಿಟಲ್ ಸಹಾಯಕವಾಗಿದೆ. ಬೆಳೆ ರೋಗಗಳಿಂದ ಮಾರುಕಟ್ಟೆ ಅನಿಶ್ಚಿತತೆಗಳವರೆಗೆ ನೀವು ಎದುರಿಸುವ ಸವಾಲುಗಳನ್ನು ನಾವು ಅರ್ಥಮಾಡಿಕೊಂಡಿದ್ದೇವೆ. ಸರಳ ಧ್ವನಿ ಆದೇಶಗಳ ಮೂಲಕ ತಜ್ಞರ ಕೃಷಿ ಮಾರ್ಗದರ್ಶನವನ್ನು ನಿಮ್ಮ ಬೆರಳ ತುದಿಗೆ, ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ ತರುವುದು ನಮ್ಮ ಧ್ಯೇಯವಾಗಿದೆ.",
+                stat1: "ರೈತರು ಸಹಾಯ ಪಡೆದರು", stat2: "ಭಾಷೆಗಳು", stat3: "ಬೆಂಬಲ",
+                footerDesc: "ಉತ್ತಮ ಇಳುವರಿ ಮತ್ತು ಹೆಚ್ಚಿನ ಲಾಭಕ್ಕಾಗಿ ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್ ಕೃಷಿ ಸಹಾಯಕ.",
+                quickLinks: "ತ್ವರಿತ ಲಿಂಕ್‌ಗಳು", footerHome: "ಮುಖಪುಟ", footerFeatures: "ವೈಶಿಷ್ಟ್ಯಗಳು",
+                footerAbout: "ನಮ್ಮ ಬಗ್ಗೆ", footerContact: "ಸಂಪರ್ಕ", contactUs: "ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ",
+                tollFree: "ಟೋಲ್ ಫ್ರೀ: 1800-123-AGRI", email: "support@agrimitra.com", rights: "ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ."
+            },
+            mr: {
+                home: "मुखपृष्ठ", features: "वैशिष्ट्ये", about: "आमच्याबद्दल", contact: "संपर्क",
+                heroTitle1: "तुमचा स्मार्ट", heroTitle2: "शेती सहाय्यक",
+                heroDescription: "तुमच्या भाषेत त्वरित कृषी कौशल्य. रोग शोधा, बाजारभाव तपासा आणि वैयक्तिक सल्ला मिळवा - सर्व आवाजाद्वारे.",
+                askButton: "अॅग्रीमित्राला विचारा", voiceStatusText: "तुमच्या भाषेत बोलण्यासाठी टॅप करा",
+                command1: '"गहू रोग?"', command2: '"टोमॅटो भाव"', command3: '"खत सल्ला"',
+                heroPlaceholderText: "तुमचा स्मार्ट शेती सहाय्यक",
+                featuresTitle1: "स्मार्ट शेतीसाठी", featuresTitle2: "स्मार्ट वैशिष्ट्ये",
+                feature1Title: "आवाज-आधारित संवाद", feature1Desc: "तुमच्या प्रादेशिक भाषेत बोला आणि त्वरित प्रतिसाद मिळवा. टायपिंगची गरज नाही - फक्त विचारा!",
+                feature1Placeholder: "6 भाषांमध्ये बोला", feature1Btn: "आवाज सहाय्यक वापरून पहा",
+                feature2Title: "पिकांचे रोग शोधा", feature2Desc: "तुमच्या पिकाचा फोटो अपलोड करा आणि आमचे AI रोग शोधून उपचार सुचवेल.",
+                feature2Placeholder: "AI रोग शोध", uploadText: "फोटो अपलोड करा",
+                feature3Title: "मंडी भाव आणि अंदाज", feature3Desc: "रिअल-टाइम बाजारभाव आणि चांगल्या विक्री निर्णयांसाठी AI-आधारित किंमत अंदाज.",
+                feature3Placeholder: "थेट बाजारभाव", wheat: "गहू", rice: "तांदूळ", tomato: "टोमॅटो",
+                viewAllPrices: "सर्व भाव पहा →",
+                feature4Title: "वैयक्तिक सल्ला", feature4Desc: "तुमच्या शेती इतिहास आणि पिकांच्या डेटावर आधारित सानुकूलित शिफारसी मिळवा.",
+                feature4Placeholder: "वैयक्तिक शेती सल्ला", advice1: "2 दिवसांत सिंचन आवश्यक",
+                advice2: "कीटक नियंत्रण शिफारस केलेले", viewAllAdvice: "सर्व सल्ला पहा →",
+                stopBtn: "थांबवा",
+                aboutTitle: "अॅग्रीमित्र बद्दल", aboutDesc: "अॅग्रीमित्र हा एक बुद्धिमान डिजिटल सहाय्यक आहे जो विशेषतः लहान-शेतकऱ्यांसाठी डिझाइन केलेला आहे. पिकांचे रोग ते बाजारातील अनिश्चितता यापर्यंत तुम्हाला भेडसावणाऱ्या आव्हानांची आम्हाला जाणीव आहे. साध्या आवाज आदेशांद्वारे तज्ञ कृषी मार्गदर्शन तुमच्या बोटांच्या टोकावर, तुमच्या भाषेत आणणे हे आमचे ध्येय आहे.",
+                stat1: "शेतकऱ्यांना मदत", stat2: "भाषा", stat3: "मदत",
+                footerDesc: "चांगले उत्पन्न आणि अधिक नफा यासाठी तुमचा स्मार्ट शेती सहाय्यक.",
+                quickLinks: "द्रुत लिंक्स", footerHome: "मुखपृष्ठ", footerFeatures: "वैशिष्ट्ये",
+                footerAbout: "आमच्याबद्दल", footerContact: "संपर्क", contactUs: "संपर्क साधा",
+                tollFree: "टोल फ्री: 1800-123-AGRI", email: "support@agrimitra.com", rights: "सर्व हक्क राखीव."
+            }
+        };
+
+        // Function to open AgriBot
+        function openAgriBot() {
+            window.location.href = 'chatbot.html';
+        }
+        
+        // Voice interaction functions
+        let recognition = null;
+        let isListening = false;
+        
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window) {
+                recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                
+                const currentLang = document.getElementById('languageSelect').value;
+                const langMap = {
+                    'en': 'en-US',
+                    'hi': 'hi-IN',
+                    'ta': 'ta-IN',
+                    'te': 'te-IN',
+                    'kn': 'kn-IN',
+                    'mr': 'mr-IN'
+                };
+                recognition.lang = langMap[currentLang] || 'en-US';
+                
+                recognition.onstart = function() {
+                    isListening = true;
+                    document.getElementById('voiceText').textContent = 'Listening...';
+                    document.getElementById('voiceResponse').innerHTML = '';
+                };
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('voiceText').textContent = 'You said: ' + transcript;
+                    processVoiceCommand(transcript);
+                };
+                
+                recognition.onerror = function(event) {
+                    document.getElementById('voiceText').textContent = 'Error: ' + event.error;
+                    setTimeout(() => {
+                        const modal = document.getElementById('voiceModal');
+                        modal.style.display = 'none';
+                    }, 2000);
+                };
+                
+                recognition.onend = function() {
+                    isListening = false;
+                };
+            } else {
+                alert('Speech recognition not supported in your browser. Please use Chrome, Edge, or Safari.');
+            }
+        }
+        
+        function processVoiceCommand(command) {
+            const lowerCommand = command.toLowerCase();
+            let response = '';
+            
+            if (lowerCommand.includes('wheat') || lowerCommand.includes('गेहूं') || lowerCommand.includes('கோதுமை') || 
+                lowerCommand.includes('గోధుమ') || lowerCommand.includes('ಗೋಧಿ') || lowerCommand.includes('गहू')) {
+                response = 'For wheat diseases, common ones include rust, smut, and blight. Use disease-resistant varieties and practice crop rotation. For current wheat prices, it ranges from ₹2200-₹2500 per quintal depending on quality.';
+            } else if (lowerCommand.includes('tomato') || lowerCommand.includes('टमाटर') || lowerCommand.includes('தக்காளி') || 
+                       lowerCommand.includes('టమాట') || lowerCommand.includes('ಟೊಮೇಟೊ') || lowerCommand.includes('टोमॅटो')) {
+                response = 'Tomato prices vary by season. Currently, it ranges from ₹20-₹40 per kg in retail markets. For farming advice: use balanced fertilizers, practice crop rotation, and monitor for early blight and fruit borer.';
+            } else if (lowerCommand.includes('fertilizer') || lowerCommand.includes('उर्वरक') || lowerCommand.includes('உரம்') || 
+                       lowerCommand.includes('ఎరువులు') || lowerCommand.includes('ಗೊಬ್ಬರ') || lowerCommand.includes('खत')) {
+                response = 'For balanced fertilization, conduct soil testing first. General recommendation: Use NPK in 4:2:1 ratio. Consider organic options like vermicompost, farmyard manure, and green manure for sustainable farming.';
+            } else if (lowerCommand.includes('price') || lowerCommand.includes('भाव') || lowerCommand.includes('விலை') || 
+                       lowerCommand.includes('ధర') || lowerCommand.includes('ಬೆಲೆ') || lowerCommand.includes('भाव')) {
+                response = 'Current market prices: Wheat: ₹2425/quintal, Rice: ₹3100/quintal, Tomato: ₹1800/quintal. Prices vary by mandi and quality. Check local mandi for exact rates.';
+            } else {
+                response = 'I can help with: crop diseases, fertilizer recommendations, market prices, weather updates, and farming best practices. Please ask a specific question about farming.';
+            }
+            
+            document.getElementById('voiceResponse').innerHTML = '<strong>AgriMitra:</strong><br>' + response;
+        }
+        
+        function startListening() {
+            if (!recognition) {
+                initSpeechRecognition();
+            }
+            if (recognition && !isListening) {
+                const currentLang = document.getElementById('languageSelect').value;
+                const langMap = {
+                    'en': 'en-US',
+                    'hi': 'hi-IN',
+                    'ta': 'ta-IN',
+                    'te': 'te-IN',
+                    'kn': 'kn-IN',
+                    'mr': 'mr-IN'
+                };
+                recognition.lang = langMap[currentLang] || 'en-US';
+                recognition.start();
+                document.getElementById('voiceModal').style.display = 'block';
+            }
+        }
+        
+        function stopListening() {
+            if (recognition && isListening) {
+                recognition.stop();
+            }
+            document.getElementById('voiceModal').style.display = 'none';
+        }
+        
+        function showVoiceDemo() {
+            startListening();
+        }
+        
+        function updateHomeLanguage(lang) {
+            const t = homeTranslations[lang];
+            if (!t) return;
+            
+            document.getElementById('navHome').textContent = t.home;
+            document.getElementById('navFeatures').textContent = t.features;
+            document.getElementById('navAbout').textContent = t.about;
+            document.getElementById('navContact').textContent = t.contact;
+            document.getElementById('heroTitle1').textContent = t.heroTitle1;
+            document.getElementById('heroTitle2').textContent = t.heroTitle2;
+            document.getElementById('heroDescription').textContent = t.heroDescription;
+            document.getElementById('askButton').textContent = t.askButton;
+            document.getElementById('voiceStatusText').textContent = t.voiceStatusText;
+            document.getElementById('command1').textContent = t.command1;
+            document.getElementById('command2').textContent = t.command2;
+            document.getElementById('command3').textContent = t.command3;
+            document.getElementById('heroPlaceholderText').textContent = t.heroPlaceholderText;
+            document.getElementById('featuresTitle1').textContent = t.featuresTitle1;
+            document.getElementById('featuresTitle2').textContent = t.featuresTitle2;
+            document.getElementById('feature1Title').textContent = t.feature1Title;
+            document.getElementById('feature1Desc').textContent = t.feature1Desc;
+            document.getElementById('feature1Placeholder').textContent = t.feature1Placeholder;
+            document.getElementById('feature1Btn').textContent = t.feature1Btn;
+            document.getElementById('feature2Title').textContent = t.feature2Title;
+            document.getElementById('feature2Desc').textContent = t.feature2Desc;
+            document.getElementById('feature2Placeholder').textContent = t.feature2Placeholder;
+            document.getElementById('uploadText').textContent = t.uploadText;
+            document.getElementById('feature3Title').textContent = t.feature3Title;
+            document.getElementById('feature3Desc').textContent = t.feature3Desc;
+            document.getElementById('feature3Placeholder').textContent = t.feature3Placeholder;
+            document.getElementById('wheat').textContent = t.wheat;
+            document.getElementById('rice').textContent = t.rice;
+            document.getElementById('tomato').textContent = t.tomato;
+            document.getElementById('viewAllPrices').textContent = t.viewAllPrices;
+            document.getElementById('feature4Title').textContent = t.feature4Title;
+            document.getElementById('feature4Desc').textContent = t.feature4Desc;
+            document.getElementById('feature4Placeholder').textContent = t.feature4Placeholder;
+            document.getElementById('advice1').textContent = t.advice1;
+            document.getElementById('advice2').textContent = t.advice2;
+            document.getElementById('viewAllAdvice').textContent = t.viewAllAdvice;
+            document.getElementById('stopBtn').textContent = t.stopBtn;
+            document.getElementById('aboutTitle').textContent = t.aboutTitle;
+            document.getElementById('aboutDesc').textContent = t.aboutDesc;
+            document.getElementById('stat1').textContent = t.stat1;
+            document.getElementById('stat2').textContent = t.stat2;
+            document.getElementById('stat3').textContent = t.stat3;
+            document.getElementById('footerDesc').textContent = t.footerDesc;
+            document.getElementById('quickLinks').textContent = t.quickLinks;
+            document.getElementById('footerHome').textContent = t.footerHome;
+            document.getElementById('footerFeatures').textContent = t.footerFeatures;
+            document.getElementById('footerAbout').textContent = t.footerAbout;
+            document.getElementById('footerContact').textContent = t.footerContact;
+            document.getElementById('contactUs').textContent = t.contactUs;
+            document.getElementById('tollFree').textContent = t.tollFree;
+            document.getElementById('email').textContent = t.email;
+            document.getElementById('rights').textContent = t.rights;
+        }
+
+        // ========== DISEASE DETECTION WITH BACKEND ==========
+        
+        // Backend API URL
+        const API_URL = 'http://localhost:5000';
+        
+        // Flag to prevent double upload
+        let isUploading = false;
+        
+        // Function to detect disease using backend model
+        async function detectTomatoDisease(imageFile) {
+            // Prevent multiple simultaneous uploads
+            if (isUploading) {
+                console.log('Upload already in progress');
+                return;
+            }
+            
+            isUploading = true;
+            
+            const modal = document.getElementById('voiceModal');
+            const voiceText = document.getElementById('voiceText');
+            const voiceResponse = document.getElementById('voiceResponse');
+            
+            // Show modal with loading
+            modal.style.display = 'block';
+            voiceText.textContent = '📷 Analyzing your tomato leaf...';
+            voiceResponse.innerHTML = `
+                <div style="text-align: center; padding: 1rem;">
+                    <div class="loading-spinner"></div>
+                    <p style="margin-top: 1rem;">Sending image to AI model...</p>
+                    <p style="font-size: 0.85rem; color: #666;">This may take a few seconds</p>
+                </div>
+            `;
+            
+            // Create form data
+            const formData = new FormData();
+            formData.append('image', imageFile);
+            
+            try {
+                // Call backend API with timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 30000);
+                
+                const response = await fetch(`${API_URL}/predict`, {
+                    method: 'POST',
+                    body: formData,
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Get confidence class for styling
+                    let confidenceClass = 'confidence-high';
+                    if (result.accuracy < 70) confidenceClass = 'confidence-medium';
+                    if (result.accuracy < 50) confidenceClass = 'confidence-low';
+                    
+                    // Display results with nice formatting
+                    voiceResponse.innerHTML = `
+                        <div class="disease-result">
+                            <h3>🌿 Disease Detection Result</h3>
+                            
+                            <div class="result-card">
+                                <div class="result-label">🍅 Disease Name:</div>
+                                <div class="result-value" style="font-size: 1.1rem; font-weight: 600; color: #2e7d32;">${result.disease_name}</div>
+                                
+                                <div class="result-label">📊 Accuracy / Confidence:</div>
+                                <div class="result-value ${confidenceClass}" style="font-size: 1rem;">${result.accuracy}%</div>
+                            </div>
+                            
+                            <div class="section-divider"></div>
+                            
+                            <div class="result-label">🔬 What causes this?</div>
+                            <div class="result-value">${result.causes}</div>
+                            
+                            <div class="result-label">⚠️ How to prevent / Precautions:</div>
+                            <div class="result-value">${result.precautions}</div>
+                            
+                            <div class="section-divider"></div>
+                            
+                            <div class="pesticide-box">
+                                <div class="result-label" style="color: #2e7d32;">🧪 Chemical Pesticides:</div>
+                                <div class="result-value">${result.chemical_pesticides}</div>
+                            </div>
+                            
+                            <div class="organic-box">
+                                <div class="result-label" style="color: #ff9800;">🌱 Organic / Natural Pesticides:</div>
+                                <div class="result-value">${result.organic_pesticides}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Speak the result (optional)
+                    if (window.speechSynthesis && !window.speechSynthesis.speaking) {
+                        const msg = new SpeechSynthesisUtterance();
+                        msg.text = `${result.disease_name} detected with ${result.accuracy} percent accuracy. ${result.precautions.substring(0, 100)}`;
+                        msg.lang = 'en-US';
+                        msg.rate = 0.9;
+                        window.speechSynthesis.speak(msg);
+                    }
+                    
+                } else {
+                    voiceResponse.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error: ${result.error || 'Something went wrong'}</p>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('Error calling backend:', error);
+                voiceResponse.innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-plug"></i>
+                        <p>❌ Cannot connect to AI server.</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Make sure backend is running:</p>
+                        <p style="font-size: 0.85rem; background: #f5f5f5; padding: 0.5rem; border-radius: 5px;">cd backend && python app.py</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Server should be at: ${API_URL}</p>
+                    </div>
+                `;
+            } finally {
+                // Reset uploading flag
+                isUploading = false;
+            }
+        }
+        
+        // Handle image upload and detection
+        function setupImageUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const cropImage = document.getElementById('cropImage');
+            
+            if (uploadArea && cropImage) {
+                // Click upload area to select file
+                uploadArea.addEventListener('click', function(e) {
+                    // Prevent multiple clicks
+                    if (isUploading) {
+                        e.preventDefault();
+                        return;
+                    }
+                    
+                    // Check if user is logged in
+                    const userData = sessionStorage.getItem('agriMitraUser');
+                    if (!userData) {
+                        alert('Please login to use disease detection feature');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    
+                    // Reset file input value to allow same file upload again
+                    cropImage.value = '';
+                    cropImage.click();
+                });
+                
+                // Handle file selection
+                cropImage.addEventListener('change', function(e) {
+                    if (e.target.files.length > 0 && !isUploading) {
+                        const file = e.target.files[0];
+                        
+                        // Check if it's an image
+                        if (!file.type.startsWith('image/')) {
+                            alert('Please select an image file (jpg, png, etc.)');
+                            cropImage.value = '';
+                            return;
+                        }
+                        
+                        // Show preview first
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const modal = document.getElementById('voiceModal');
+                            const voiceResponse = document.getElementById('voiceResponse');
+                            modal.style.display = 'block';
+                            voiceResponse.innerHTML = `
+                                <div style="text-align: center;">
+                                    <img src="${event.target.result}" class="image-preview" style="max-width: 100%; max-height: 200px; border-radius: 10px; margin-bottom: 1rem;">
+                                    <p><span class="loading-spinner"></span> Sending to AI for analysis...</p>
+                                </div>
+                            `;
+                        };
+                        reader.readAsDataURL(file);
+                        
+                        // Call detection
+                        detectTomatoDisease(file);
+                        
+                        // Reset file input after upload starts
+                        setTimeout(() => {
+                            cropImage.value = '';
+                        }, 100);
+                    }
+                });
+            }
+        }
+        
+        // ========== STOP BUTTON - Calls main.js stopListening ==========
+        // This function just calls the existing stopListening from main.js
+        // and also closes the modal
+        window.stopListening = function() {
+            // Close the modal
+            const modal = document.getElementById('voiceModal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+            
+            // Stop any speech that might be playing
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+            }
+            
+            console.log('Stop button clicked - modal closed');
+        };
+        
+        // Language selector and initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            const langSelect = document.getElementById('languageSelect');
+            const savedLang = localStorage.getItem('agriMitraLang') || 'en';
+            langSelect.value = savedLang;
+            updateHomeLanguage(savedLang);
+            
+            langSelect.addEventListener('change', function(e) {
+                updateHomeLanguage(e.target.value);
+                localStorage.setItem('agriMitraLang', e.target.value);
+            });
+            
+            // Setup image upload for disease detection
+            setupImageUpload();
+            
+            // Voice button
+            const startBtn = document.getElementById('startListening');
+            if (startBtn) {
+                startBtn.addEventListener('click', startListening);
+            }
+            
+            // Modal close
+            const modal = document.getElementById('voiceModal');
+            const closeBtn = document.querySelector('.close');
+            if (closeBtn) {
+                closeBtn.onclick = function() {
+                    modal.style.display = 'none';
+                    if (recognition && isListening) {
+                        recognition.stop();
+                    }
+                    if (window.speechSynthesis) {
+                        window.speechSynthesis.cancel();
+                    }
+                };
+            }
+            
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                    if (recognition && isListening) {
+                        recognition.stop();
+                    }
+                    if (window.speechSynthesis) {
+                        window.speechSynthesis.cancel();
+                    }
+                }
+            };
+            
+            // Command chips
+            document.querySelectorAll('.command-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    const command = this.textContent.replace(/["]/g, '');
+                    if (recognition) {
+                        processVoiceCommand(command);
+                        document.getElementById('voiceModal').style.display = 'block';
+                        document.getElementById('voiceText').textContent = 'Command: ' + command;
+                    }
+                });
+            });
+            
+            // File upload
+            const uploadArea = document.getElementById('uploadArea');
+            const cropImage = document.getElementById('cropImage');
+            if (uploadArea && cropImage) {
+                uploadArea.addEventListener('click', () => cropImage.click());
+                cropImage.addEventListener('change', function(e) {
+                    if (e.target.files[0]) {
+                        alert('Image uploaded successfully! Disease detection feature coming soon.');
+                    }
+                });
+            }
+            
+            // View All Prices button
+            const viewPricesBtn = document.getElementById('viewAllPrices');
+            if (viewPricesBtn) {
+                viewPricesBtn.addEventListener('click', () => {
+                    alert('Market prices feature coming soon! Stay tuned for real-time mandi prices.');
+                });
+            }
+            
+            // View All Advice button
+            const viewAdviceBtn = document.getElementById('viewAllAdvice');
+            if (viewAdviceBtn) {
+                viewAdviceBtn.addEventListener('click', () => {
+                    alert('Personalized advice feature coming soon! Complete your farm profile to get custom recommendations.');
+                });
+            }
+            
+            // Add stop button click handler
+            const stopBtnElement = document.getElementById('stopBtnElement');
+            if (stopBtnElement) {
+                stopBtnElement.addEventListener('click', function() {
+                    // Close the modal
+                    const modal = document.getElementById('voiceModal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
+                    // Stop any speech
+                    if (window.speechSynthesis) {
+                        window.speechSynthesis.cancel();
+                    }
+                    // Call the stopListening function
+                    if (typeof window.stopListening === 'function') {
+                        window.stopListening();
+                    }
+                    console.log('Stop button clicked');
+                });
+            }
+        });
+    </script>
+    <script src="js/main.js"></script>
+    <script src="js/auth-check.js"></script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriMitra - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .auth-image {
+            position: relative;
+            overflow: hidden;
+            min-height: 600px;
+            background: #000;
+        }  
+        .auth-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: transform 0.5s;
+        }
+        
+        .auth-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(46, 125, 50, 0.7), rgba(0, 0, 0, 0.5));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 3rem;
+            color: white;
+        }
+        
+        .overlay-content {
+            max-width: 500px;
+        }
+        
+        .overlay-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .overlay-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-badges {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .feature-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+        }
+        
+        .feature-badge i {
+            margin-right: 0.3rem;
+            color: #4caf50;
+        }
+        
+        @media (max-width: 968px) {
+            .auth-image {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                <span>AgriMitra</span>
+            </div>
+            <div class="language-selector">
+                <select id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="kn">ಕನ್ನಡ</option>
+                    <option value="mr">मराठी</option>
+                </select>
+            </div>
+        </div>
+    </nav>
+
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <i class="fas fa-seedling"></i>
+                    <h2 id="loginTitle">Welcome to AgriMitra!</h2>
+                    <p id="loginSubtitle">Please login to continue</p>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" placeholder="Username or Mobile Number" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Password" required>
+                        <i class="fas fa-eye toggle-password" onclick="togglePassword('password')"></i>
+                    </div>
+
+                    <button type="submit" class="auth-btn" id="loginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+
+                    <div class="auth-divider">
+                        <span id="orText">OR</span>
+                    </div>
+
+                    <div class="auth-footer">
+                        <p id="registerPrompt">Don't have an account? <a href="register.html" id="registerLink">Register here</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <div class="auth-image">
+                <img src="https://images.pexels.com/photos/2252583/pexels-photo-2252583.jpeg?auto=compress&cs=tinysrgb&w=800" 
+                     alt="Happy farmer"
+                     onerror="this.onerror=null; this.src='https://images.pexels.com/photos/2886937/pexels-photo-2886937.jpeg?auto=compress&cs=tinysrgb&w=800'">
+                <div class="image-overlay">
+                    <div class="overlay-content">
+                        <h2 id="overlayTitle">Your Smart Farming Assistant</h2>
+                        <p id="overlayText">Join 10,000+ farmers already growing with AgriMitra</p>
+                        <div class="feature-badges">
+                            <span class="feature-badge"><i class="fas fa-language"></i> <span id="lang1">6 Languages</span></span>
+                            <span class="feature-badge"><i class="fas fa-headset"></i> <span id="lang2">24/7 Support</span></span>
+                            <span class="feature-badge"><i class="fas fa-leaf"></i> <span id="lang3">AI Detection</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Language translations for login page
+        const loginTranslations = {
+            en: {
+                title: "Welcome to AgriMitra!",
+                subtitle: "Please login to continue",
+                usernamePlaceholder: "Username or Mobile Number",
+                passwordPlaceholder: "Password",
+                loginBtn: "Login",
+                orText: "OR",
+                registerPrompt: "Don't have an account?",
+                registerLink: "Register here",
+                overlayTitle: "Your Smart Farming Assistant",
+                overlayText: "Join 10,000+ farmers already growing with AgriMitra",
+                lang1: "6 Languages",
+                lang2: "24/7 Support",
+                lang3: "AI Detection"
+            },
+            hi: {
+                title: "एग्रीमित्र में आपका स्वागत है!",
+                subtitle: "कृपया जारी रखने के लिए लॉगिन करें",
+                usernamePlaceholder: "उपयोगकर्ता नाम या मोबाइल नंबर",
+                passwordPlaceholder: "पासवर्ड",
+                loginBtn: "लॉगिन",
+                orText: "या",
+                registerPrompt: "खाता नहीं है?",
+                registerLink: "यहां रजिस्टर करें",
+                overlayTitle: "आपका स्मार्ट कृषि सहायक",
+                overlayText: "10,000+ किसान एग्रीमित्र के साथ बढ़ रहे हैं",
+                lang1: "6 भाषाएं",
+                lang2: "24/7 सहायता",
+                lang3: "एआई जांच"
+            },
+            ta: {
+                title: "அக்ரிமித்ராவுக்கு வரவேற்கிறோம்!",
+                subtitle: "தொடர உள்நுழையவும்",
+                usernamePlaceholder: "பயனர்பெயர் அல்லது கைபேசி எண்",
+                passwordPlaceholder: "கடவுச்சொல்",
+                loginBtn: "உள்நுழைய",
+                orText: "அல்லது",
+                registerPrompt: "கணக்கு இல்லையா?",
+                registerLink: "இங்கே பதிவு செய்க",
+                overlayTitle: "உங்கள் ஸ்மார்ட் விவசாய உதவியாளர்",
+                overlayText: "10,000+ விவசாயிகள் அக்ரிமித்ராவுடன் வளர்கின்றனர்",
+                lang1: "6 மொழிகள்",
+                lang2: "24/7 ஆதரவு",
+                lang3: "AI கண்டறிதல்"
+            },
+            te: {
+                title: "అగ్రిమిత్రకు స్వాగతం!",
+                subtitle: "దయచేసి కొనసాగించడానికి లాగిన్ చేయండి",
+                usernamePlaceholder: "వినియోగదారు పేరు లేదా మొబైల్ నంబర్",
+                passwordPlaceholder: "పాస్‌వర్డ్",
+                loginBtn: "లాగిన్",
+                orText: "లేదా",
+                registerPrompt: "ఖాతా లేదా?",
+                registerLink: "ఇక్కడ నమోదు చేయండి",
+                overlayTitle: "మీ స్మార్ట్ వ్యవసాయ సహాయకుడు",
+                overlayText: "10,000+ మంది రైతులు అగ్రిమిత్రతో పెరుగుతున్నారు",
+                lang1: "6 భాషలు",
+                lang2: "24/7 మద్దతు",
+                lang3: "AI గుర్తింపు"
+            },
+            kn: {
+                title: "ಅಗ್ರಿಮಿತ್ರಕ್ಕೆ ಸುಸ್ವಾಗತ!",
+                subtitle: "ದಯವಿಟ್ಟು ಮುಂದುವರಿಯಲು ಲಾಗಿನ್ ಮಾಡಿ",
+                usernamePlaceholder: "ಬಳಕೆದಾರಹೆಸರು ಅಥವಾ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",
+                passwordPlaceholder: "ಪಾಸ್ವರ್ಡ್",
+                loginBtn: "ಲಾಗಿನ್",
+                orText: "ಅಥವಾ",
+                registerPrompt: "ಖಾತೆ ಇಲ್ಲವೇ?",
+                registerLink: "ಇಲ್ಲಿ ನೋಂದಾಯಿಸಿ",
+                overlayTitle: "ನಿಮ್ಮ ಸ್ಮಾರ್ಟ್ ಕೃಷಿ ಸಹಾಯಕ",
+                overlayText: "10,000+ ರೈತರು ಅಗ್ರಿಮಿತ್ರದೊಂದಿಗೆ ಬೆಳೆಯುತ್ತಿದ್ದಾರೆ",
+                lang1: "6 ಭಾಷೆಗಳು",
+                lang2: "24/7 ಬೆಂಬಲ",
+                lang3: "AI ಪತ್ತೆ"
+            },
+            mr: {
+                title: "अॅग्रीमित्र मध्ये आपले स्वागत आहे!",
+                subtitle: "कृपया सुरू ठेवण्यासाठी लॉगिन करा",
+                usernamePlaceholder: "वापरकर्तानाव किंवा मोबाइल क्रमांक",
+                passwordPlaceholder: "पासवर्ड",
+                loginBtn: "लॉगिन",
+                orText: "किंवा",
+                registerPrompt: "खाते नाही?",
+                registerLink: "येथे नोंदणी करा",
+                overlayTitle: "तुमचा स्मार्ट शेती सहाय्यक",
+                overlayText: "10,000+ शेतकरी अॅग्रीमित्रसोबत वाढत आहेत",
+                lang1: "6 भाषा",
+                lang2: "24/7 मदत",
+                lang3: "AI शोध"
+            }
+        };
+
+        // Update language function
+        function updateLoginLanguage(lang) {
+            const t = loginTranslations[lang];
+            if (!t) return;
+            
+            document.getElementById('loginTitle').textContent = t.title;
+            document.getElementById('loginSubtitle').textContent = t.subtitle;
+            document.getElementById('username').placeholder = t.usernamePlaceholder;
+            document.getElementById('password').placeholder = t.passwordPlaceholder;
+            document.getElementById('loginBtn').innerHTML = `<i class="fas fa-sign-in-alt"></i> ${t.loginBtn}`;
+            document.getElementById('orText').textContent = t.orText;
+            document.getElementById('registerPrompt').innerHTML = `${t.registerPrompt} <a href="register.html" id="registerLink">${t.registerLink}</a>`;
+            document.getElementById('overlayTitle').textContent = t.overlayTitle;
+            document.getElementById('overlayText').textContent = t.overlayText;
+            document.getElementById('lang1').textContent = t.lang1;
+            document.getElementById('lang2').textContent = t.lang2;
+            document.getElementById('lang3').textContent = t.lang3;
+        }
+
+        // Language selector event
+        document.getElementById('languageSelect').addEventListener('change', function(e) {
+            updateLoginLanguage(e.target.value);
+        });
+
+        // Set initial language from localStorage if available
+        const savedLang = localStorage.getItem('agriMitraLang') || 'en';
+        document.getElementById('languageSelect').value = savedLang;
+        updateLoginLanguage(savedLang);
+    </script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
