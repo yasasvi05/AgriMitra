@@ -2,17 +2,11 @@
 
 An intelligent agricultural decision-support platform that helps farmers detect crop diseases, predict mandi prices, and receive personalized farming recommendations through a multilingual voice-enabled interface.
 
-## Live Demo
-
-🔗 Add your deployment link here
-
 ## Demo Video
 
+🎥 [Watch Demo Video](https://youtu.be/V0ntv5GaOYw?si=qh-mNu17--5EXslU)
 
-
-[Watch Demo Video]([https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://youtu.be/V0ntv5GaOYw?si=qh-mNu17--5EXslU))
-
-
+---
 
 ## Project Overview
 
