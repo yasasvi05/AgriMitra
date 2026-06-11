@@ -165,7 +165,8 @@ def predict():
             'causes': info['causes'],
             'precautions': info['precautions'],
             'chemical_pesticides': info['chemical_pesticides'],
-            'organic_pesticides': info['organic_pesticides']
+            'organic_pesticides': info['organic_pesticides'],
+            'speech_text': f"{info['name']} detected with {round(confidence, 2)} percent accuracy. {info['precautions'][:150]}"  # ← ONLY ADDED THIS LINE
         })
         
     except Exception as e:

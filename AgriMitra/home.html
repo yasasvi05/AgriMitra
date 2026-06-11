@@ -1333,19 +1333,19 @@
                 });
             }
             
-            // View All Prices button
+            // ========== ADDED: View All Prices button - Opens mandi-prices.html ==========
             const viewPricesBtn = document.getElementById('viewAllPrices');
             if (viewPricesBtn) {
-                viewPricesBtn.addEventListener('click', () => {
-                    alert('Market prices feature coming soon! Stay tuned for real-time mandi prices.');
+                viewPricesBtn.addEventListener('click', function() {
+                    window.location.href = 'mandi-prices.html';
                 });
             }
             
-            // View All Advice button
+            // ========== ADDED: View All Advice button - Opens personalized-advice.html ==========
             const viewAdviceBtn = document.getElementById('viewAllAdvice');
             if (viewAdviceBtn) {
-                viewAdviceBtn.addEventListener('click', () => {
-                    alert('Personalized advice feature coming soon! Complete your farm profile to get custom recommendations.');
+                viewAdviceBtn.addEventListener('click', function() {
+                    window.location.href = 'personalized-advice.html';
                 });
             }
             

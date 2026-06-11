@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriMitra - Mandi Prices & Predictions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8f5e9 100%);
+            min-height: 100vh;
+        }
+        
+        /* Header with back button */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .back-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-btn:hover {
+            background: #1b5e20;
+            transform: translateX(-5px);
+        }
+        
+        .language-selector {
+            background: #f5f5f5;
+            padding: 8px 15px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        h1 {
+            color: #2e7d32;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h1 i {
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin: 20px 0 30px;
+            font-size: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .prices-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .price-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .price-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(46, 125, 50, 0.2);
+            border-color: #4caf50;
+        }
+        
+        .price-card h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .price {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin: 15px 0;
+        }
+        
+        .price small {
+            font-size: 14px;
+            font-weight: normal;
+            color: #666;
+        }
+        
+        .prediction {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 10px;
+            border-left: 4px solid #2e7d32;
+        }
+        
+        .prediction strong {
+            color: #2e7d32;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .prediction-price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff9800;
+            margin: 10px 0;
+        }
+        
+        .sentiment {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        
+        .confidence {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, #2e7d32, #4caf50);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 40px;
+            cursor: pointer;
+            margin-top: 40px;
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+        }
+        
+        .refresh-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .best-time {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 15px;
+            background: #fff3e0;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #e65100;
+        }
+        
+        .trend-up {
+            color: #2e7d32;
+        }
+        
+        .trend-down {
+            color: #f44336;
+        }
+        
+        .trend-stable {
+            color: #ff9800;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .price {
+                font-size: 28px;
+            }
+            
+            .price-card h3 {
+                font-size: 22px;
+            }
+            
+            .prediction-price {
+                font-size: 24px;
+            }
+            
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .price-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <button class="back-btn" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> <span id="backBtnText">Back to Home</span>
+            </button>
+            <h1>
+                <i class="fas fa-chart-line"></i>
+                <span id="pageTitle">Mandi Prices & Predictions</span>
+            </h1>
+            <select id="languageSelect" class="language-selector">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+                <option value="ta">தமிழ்</option>
+                <option value="te">తెలుగు</option>
+                <option value="kn">ಕನ್ನಡ</option>
+                <option value="mr">मराठी</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="container">
+        <p class="subtitle" id="subtitleText">
+            <i class="fas fa-rupee-sign"></i> Real-time market prices + AI-powered predictions for better selling decisions
+        </p>
+
+        <div class="prices-container" id="pricesContainer"></div>
+        
+        <button class="refresh-btn" onclick="refreshMandiPrices()" id="refreshBtn">
+            <i class="fas fa-sync-alt"></i> Refresh Prices
+        </button>
+    </div>
+
+    <script>
+        // ========== COMPLETE TRANSLATIONS FOR 6 LANGUAGES ==========
+        const translations = {
+            en: {
+                backBtnText: "Back to Home",
+                pageTitle: "Mandi Prices & Predictions",
+                subtitleText: "Real-time market prices + AI-powered predictions for better selling decisions",
+                refreshBtn: "Refresh Prices",
+                refreshing: "Updating...",
+                updated: "Prices Updated!",
+                predictionLabel: "🔮 7-day Prediction",
+                bestTimeSellNow: "⏰ Best time: Sell now",
+                bestTimeWait: "⏰ Best time: Wait 3-4 days",
+                bestTimeHold: "⏰ Best time: Hold for 2 days",
+                confidenceHigh: "Confidence: 80%",
+                confidenceMedium: "Confidence: 75%",
+                confidenceLow: "Confidence: 70%",
+                sentimentUp: "📈 Expected to rise",
+                sentimentDown: "📉 Expected to fall",
+                sentimentStable: "➡️ Stable with slight increase",
+                unitQuintal: "quintal",
+                // Crop names
+                cropWheat: "Wheat",
+                cropRice: "Rice",
+                cropTomato: "Tomato",
+                cropPotato: "Potato",
+                cropOnion: "Onion",
+                cropBrinjal: "Brinjal"
+            },
+            hi: {
+                backBtnText: "होम पर वापस जाएं",
+                pageTitle: "मंडी भाव और भविष्यवाणी",
+                subtitleText: "वास्तविक समय बाजार मूल्य + बेहतर विक्री निर्णयों के लिए AI-संचालित भविष्यवाणियां",
+                refreshBtn: "भाव ताज़ा करें",
+                refreshing: "अपडेट हो रहा...",
+                updated: "भाव अपडेट हो गए!",
+                predictionLabel: "🔮 7-दिन की भविष्यवाणी",
+                bestTimeSellNow: "⏰ सही समय: अभी बेचें",
+                bestTimeWait: "⏰ सही समय: 3-4 दिन प्रतीक्षा करें",
+                bestTimeHold: "⏰ सही समय: 2 दिन रोकें",
+                confidenceHigh: "विश्वास: 80%",
+                confidenceMedium: "विश्वास: 75%",
+                confidenceLow: "विश्वास: 70%",
+                sentimentUp: "📈 बढ़ने की संभावना",
+                sentimentDown: "📉 गिरने की संभावना",
+                sentimentStable: "➡️ मामूली वृद्धि के साथ स्थिर",
+                unitQuintal: "क्विंटल",
+                cropWheat: "गेहूं",
+                cropRice: "चावल",
+                cropTomato: "टमाटर",
+                cropPotato: "आलू",
+                cropOnion: "प्याज",
+                cropBrinjal: "बैंगन"
+            },
+            ta: {
+                backBtnText: "முகப்புக்குத் திரும்பு",
+                pageTitle: "மண்டி விலைகள் மற்றும் கணிப்புகள்",
+                subtitleText: "நிகழ்நேர சந்தை விலைகள் + சிறந்த விற்பனை முடிவுகளுக்கான AI-இயங்கும் கணிப்புகள்",
+                refreshBtn: "விலைகளை புதுப்பிக்கவும்",
+                refreshing: "புதுப்பிக்கிறது...",
+                updated: "விலைகள் புதுப்பிக்கப்பட்டன!",
+                predictionLabel: "🔮 7-நாள் கணிப்பு",
+                bestTimeSellNow: "⏰ சிறந்த நேரம்: இப்போது விற்கவும்",
+                bestTimeWait: "⏰ சிறந்த நேரம்: 3-4 நாட்கள் காத்திருக்கவும்",
+                bestTimeHold: "⏰ சிறந்த நேரம்: 2 நாட்கள் வைத்திருக்கவும்",
+                confidenceHigh: "நம்பிக்கை: 80%",
+                confidenceMedium: "நம்பிக்கை: 75%",
+                confidenceLow: "நம்பிக்கை: 70%",
+                sentimentUp: "📈 உயரும் என எதிர்பார்க்கப்படுகிறது",
+                sentimentDown: "📉 குறையும் என எதிர்பார்க்கப்படுகிறது",
+                sentimentStable: "➡️ சிறிய அதிகரிப்புடன் நிலையானது",
+                unitQuintal: "குயிண்டால்",
+                cropWheat: "கோதுமை",
+                cropRice: "அரிசி",
+                cropTomato: "தக்காளி",
+                cropPotato: "உருளைக்கிழங்கு",
+                cropOnion: "வெங்காயம்",
+                cropBrinjal: "கத்திரிக்காய்"
+            },
+            te: {
+                backBtnText: "హోమ్‌కు తిరిగి వెళ్ళు",
+                pageTitle: "మండీ ధరలు మరియు అంచనాలు",
+                subtitleText: "నిజ-సమయ మార్కెట్ ధరలు + మెరుగైన అమ్మకాల నిర్ణయాలకు AI-ఆధారిత అంచనాలు",
+                refreshBtn: "ధరలను రిఫ్రెష్ చేయండి",
+                refreshing: "అప్‌డేట్ చేస్తోంది...",
+                updated: "ధరలు అప్‌డేట్ చేయబడ్డాయి!",
+                predictionLabel: "🔮 7-రోజుల అంచనా",
+                bestTimeSellNow: "⏰ మంచి సమయం: ఇప్పుడే అమ్మండి",
+                bestTimeWait: "⏰ మంచి సమయం: 3-4 రోజులు వేచి ఉండండి",
+                bestTimeHold: "⏰ మంచి సమయం: 2 రోజులు పట్టుకోండి",
+                confidenceHigh: "విశ్వాసం: 80%",
+                confidenceMedium: "విశ్వాసం: 75%",
+                confidenceLow: "విశ్వాసం: 70%",
+                sentimentUp: "📈 పెరిగే అవకాశం",
+                sentimentDown: "📉 తగ్గే అవకాశం",
+                sentimentStable: "➡️ స్వల్ప పెరుగుదలతో స్థిరంగా",
+                unitQuintal: "క్వింటాల్",
+                cropWheat: "గోధుమ",
+                cropRice: "వరి",
+                cropTomato: "టమాట",
+                cropPotato: "బంగాళాదుంప",
+                cropOnion: "ఉల్లిపాయ",
+                cropBrinjal: "వంకాయ"
+            },
+            kn: {
+                backBtnText: "ಮುಖಪುಟಕ್ಕೆ ಹಿಂತಿರುಗಿ",
+                pageTitle: "ಮಂಡಿ ಬೆಲೆಗಳು ಮತ್ತು ಮುನ್ನೋಟಗಳು",
+                subtitleText: "ನೈಜ-ಸಮಯದ ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು + ಉತ್ತಮ ಮಾರಾಟ ನಿರ್ಧಾರಗಳಿಗಾಗಿ AI-ಚಾಲಿತ ಮುನ್ನೋಟಗಳು",
+                refreshBtn: "ಬೆಲೆಗಳನ್ನು ರಿಫ್ರೆಶ್ ಮಾಡಿ",
+                refreshing: "ಅಪ್‌ಡೇಟ್ ಆಗುತ್ತಿದೆ...",
+                updated: "ಬೆಲೆಗಳು ಅಪ್‌ಡೇಟ್ ಆಗಿವೆ!",
+                predictionLabel: "🔮 7-ದಿನಗಳ ಮುನ್ನೋಟ",
+                bestTimeSellNow: "⏰ ಉತ್ತಮ ಸಮಯ: ಈಗ ಮಾರಾಟ ಮಾಡಿ",
+                bestTimeWait: "⏰ ಉತ್ತಮ ಸಮಯ: 3-4 ದಿನಗಳು ಕಾಯಿರಿ",
+                bestTimeHold: "⏰ ಉತ್ತಮ ಸಮಯ: 2 ದಿನಗಳು ಹಿಡಿದುಕೊಳ್ಳಿ",
+                confidenceHigh: "ವಿಶ್ವಾಸ: 80%",
+                confidenceMedium: "ವಿಶ್ವಾಸ: 75%",
+                confidenceLow: "ವಿಶ್ವಾಸ: 70%",
+                sentimentUp: "📈 ಏರಿಕೆಯ ನಿರೀಕ್ಷೆ",
+                sentimentDown: "📉 ಇಳಿಕೆಯ ನಿರೀಕ್ಷೆ",
+                sentimentStable: "➡️ ಸ್ವಲ್ಪ ಹೆಚ್ಚಳದೊಂದಿಗೆ ಸ್ಥಿರ",
+                unitQuintal: "ಕ್ವಿಂಟಾಲ್",
+                cropWheat: "ಗೋಧಿ",
+                cropRice: "ಭತ್ತ",
+                cropTomato: "ಟೊಮೇಟೊ",
+                cropPotato: "ಆಲೂಗಡ್ಡೆ",
+                cropOnion: "ಈರುಳ್ಳಿ",
+                cropBrinjal: "ಬದನೆಕಾಯಿ"
+            },
+            mr: {
+                backBtnText: "मुखपृष्ठावर परत जा",
+                pageTitle: "मंडी भाव आणि अंदाज",
+                subtitleText: "रिअल-टाइम बाजारभाव + चांगल्या विक्री निर्णयांसाठी AI-आधारित अंदाज",
+                refreshBtn: "भाव रीफ्रेश करा",
+                refreshing: "अपडेट होत आहे...",
+                updated: "भाव अपडेट झाले!",
+                predictionLabel: "🔮 7-दिवसांचा अंदाज",
+                bestTimeSellNow: "⏰ योग्य वेळ: आत्ताच विका",
+                bestTimeWait: "⏰ योग्य वेळ: 3-4 दिवस थांबा",
+                bestTimeHold: "⏰ योग्य वेळ: 2 दिवस थांबा",
+                confidenceHigh: "विश्वास: 80%",
+                confidenceMedium: "विश्वास: 75%",
+                confidenceLow: "विश्वास: 70%",
+                sentimentUp: "📈 वाढण्याची शक्यता",
+                sentimentDown: "📉 कमी होण्याची शक्यता",
+                sentimentStable: "➡️ किंचित वाढीसह स्थिर",
+                unitQuintal: "क्विंटल",
+                cropWheat: "गहू",
+                cropRice: "तांदूळ",
+                cropTomato: "टोमॅटो",
+                cropPotato: "बटाटा",
+                cropOnion: "कांदा",
+                cropBrinjal: "वांगी"
+            }
+        };
+
+        let currentLang = 'en';
+
+        // Mandi Prices Data with 6 crops
+        const mandiCropsData = {
+            wheat: { cropKey: "cropWheat", emoji: "🌾", unitKey: "unitQuintal" },
+            rice: { cropKey: "cropRice", emoji: "🌾", unitKey: "unitQuintal" },
+            tomato: { cropKey: "cropTomato", emoji: "🍅", unitKey: "unitQuintal" },
+            potato: { cropKey: "cropPotato", emoji: "🥔", unitKey: "unitQuintal" },
+            onion: { cropKey: "cropOnion", emoji: "🧅", unitKey: "unitQuintal" },
+            brinjal: { cropKey: "cropBrinjal", emoji: "🍆", unitKey: "unitQuintal" }
+        };
+
+        // Base prices and trends (dynamic)
+        let cropPrices = {
+            wheat: { price: 2425, trend: "up" },
+            rice: { price: 3100, trend: "stable" },
+            tomato: { price: 1800, trend: "down" },
+            potato: { price: 1500, trend: "up" },
+            onion: { price: 2800, trend: "down" },
+            brinjal: { price: 2200, trend: "stable" }
+        };
+
+        // Get crop name from translation
+        function getCropName(cropKey, lang) {
+            const t = translations[lang];
+            const nameMap = {
+                cropWheat: t.cropWheat,
+                cropRice: t.cropRice,
+                cropTomato: t.cropTomato,
+                cropPotato: t.cropPotato,
+                cropOnion: t.cropOnion,
+                cropBrinjal: t.cropBrinjal
+            };
+            return nameMap[cropKey] || cropKey;
+        }
+
+        // Get unit from translation
+        function getUnit(lang) {
+            return translations[lang].unitQuintal;
+        }
+
+        // AI Prediction function
+        function getMandiPrediction(currentPrice, trend, lang) {
+            const t = translations[lang];
+            let predictedPrice = currentPrice;
+            let sentiment = "";
+            let confidence = "";
+            let trendClass = "";
+            
+            if(trend === "up") {
+                predictedPrice = currentPrice * 1.05;
+                sentiment = t.sentimentUp;
+                confidence = t.confidenceMedium;
+                trendClass = "trend-up";
+            } else if(trend === "down") {
+                predictedPrice = currentPrice * 0.97;
+                sentiment = t.sentimentDown;
+                confidence = t.confidenceLow;
+                trendClass = "trend-down";
+            } else {
+                predictedPrice = currentPrice * 1.01;
+                sentiment = t.sentimentStable;
+                confidence = t.confidenceHigh;
+                trendClass = "trend-stable";
+            }
+            
+            return {
+                price: Math.round(predictedPrice),
+                sentiment: sentiment,
+                confidence: confidence,
+                trendClass: trendClass
+            };
+        }
+
+        // Get best time to sell advice
+        function getMandiBestTime(trend, lang) {
+            const t = translations[lang];
+            if(trend === "up") return t.bestTimeWait;
+            if(trend === "down") return t.bestTimeSellNow;
+            return t.bestTimeHold;
+        }
+
+        // Display all crops
+        function displayMandiPrices() {
+            const container = document.getElementById('pricesContainer');
+            if (!container) return;
+            
+            const t = translations[currentLang];
+            container.innerHTML = '';
+            
+            for(let [key, crop] of Object.entries(mandiCropsData)) {
+                const cropData = cropPrices[key];
+                const cropName = getCropName(crop.cropKey, currentLang);
+                const unit = getUnit(currentLang);
+                const prediction = getMandiPrediction(cropData.price, cropData.trend, currentLang);
+                const bestTime = getMandiBestTime(cropData.trend, currentLang);
+                
+                const card = `
+                    <div class="price-card">
+                        <h3>${crop.emoji} ${cropName}</h3>
+                        <div class="price">
+                            ₹${cropData.price}/<small>${unit}</small>
+                        </div>
+                        <div class="prediction">
+                            <strong>${t.predictionLabel}</strong>
+                            <div class="prediction-price">₹${prediction.price}/${unit}</div>
+                            <div class="sentiment ${prediction.trendClass}">${prediction.sentiment}</div>
+                            <div class="confidence">${prediction.confidence}</div>
+                        </div>
+                        <div class="best-time">
+                            ${bestTime}
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            }
+        }
+
+        // Update all text on page
+        function updatePageLanguage(lang) {
+            const t = translations[lang];
+            if (!t) return;
+            
+            document.getElementById('backBtnText').innerText = t.backBtnText;
+            document.getElementById('pageTitle').innerText = t.pageTitle;
+            document.getElementById('subtitleText').innerHTML = `<i class="fas fa-rupee-sign"></i> ${t.subtitleText}`;
+            document.getElementById('refreshBtn').innerHTML = `<i class="fas fa-sync-alt"></i> ${t.refreshBtn}`;
+            
+            // Refresh the displayed prices with new language
+            displayMandiPrices();
+        }
+
+        // Refresh prices with new random values
+        function refreshMandiPrices() {
+            const btn = document.getElementById('refreshBtn');
+            const t = translations[currentLang];
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> ${t.refreshing}`;
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                for(let key in cropPrices) {
+                    // Random price change between -80 to +80
+                    let change = (Math.random() - 0.5) * 160;
+                    let newPrice = cropPrices[key].price + change;
+                    
+                    // Keep price between 500 and 5000
+                    newPrice = Math.max(500, Math.min(5000, newPrice));
+                    cropPrices[key].price = Math.round(newPrice);
+                    
+                    // Update trend based on price movement
+                    if(change > 20) {
+                        cropPrices[key].trend = "up";
+                    } else if(change < -20) {
+                        cropPrices[key].trend = "down";
+                    } else {
+                        cropPrices[key].trend = "stable";
+                    }
+                }
+                
+                displayMandiPrices();
+                
+                btn.innerHTML = `<i class="fas fa-check"></i> ${t.updated}`;
+                btn.disabled = false;
+                
+                setTimeout(() => {
+                    btn.innerHTML = `<i class="fas fa-sync-alt"></i> ${t.refreshBtn}`;
+                }, 2000);
+            }, 600);
+        }
+
+        // Go back to home page
+        function goBack() {
+            window.location.href = 'home.html';
+        }
+
+        // Change language
+        function changeLanguage(lang) {
+            currentLang = lang;
+            updatePageLanguage(lang);
+            localStorage.setItem('agriMitraLang', lang);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const langSelect = document.getElementById('languageSelect');
+            const savedLang = localStorage.getItem('agriMitraLang') || 'en';
+            currentLang = savedLang;
+            langSelect.value = savedLang;
+            
+            updatePageLanguage(savedLang);
+            
+            langSelect.addEventListener('change', function(e) {
+                changeLanguage(e.target.value);
+            });
+        });
+        
+        // Auto-refresh every 30 seconds (optional)
+        let autoRefreshInterval;
+        
+        function startAutoRefresh() {
+            autoRefreshInterval = setInterval(() => {
+                refreshMandiPrices();
+            }, 30000);
+        }
+        
+        function stopAutoRefresh() {
+            if(autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+        }
+        
+        // Start auto-refresh
+        startAutoRefresh();
+        
+        // Clean up interval when page closes
+        window.addEventListener('beforeunload', () => {
+            stopAutoRefresh();
+        });
+    </script>
+</body>
+</html>

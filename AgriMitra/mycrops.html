@@ -699,41 +699,6 @@
             }
         };
 
-        // Get saved language or default to English
-const savedLang = localStorage.getItem('agriMitraLang') || 'en';
-
-// Set the language selector to saved value
-document.getElementById('languageSelect').value = savedLang;
-
-// Update all content to saved language
-updateContentLanguage(savedLang);
-
-// When language changes, save to localStorage AND update all content
-document.getElementById('languageSelect').addEventListener('change', function(e) {
-    const newLang = e.target.value;
-    
-    // Save to localStorage
-    localStorage.setItem('agriMitraLang', newLang);
-    
-    // Update all content on current page
-    updateContentLanguage(newLang);
-    
-    // Optional: Show notification
-    showNotification(`Language changed to ${getLanguageName(newLang)}`, 'success');
-});
-
-// Helper function to get language name
-function getLanguageName(lang) {
-    const names = {
-        'en': 'English',
-        'hi': 'हिन्दी',
-        'ta': 'தமிழ்',
-        'te': 'తెలుగు',
-        'kn': 'ಕನ್ನಡ',
-        'mr': 'मराठी'
-    };
-    return names[lang] || 'English';
-}
         function updateCropsLanguage(lang) {
             const t = cropsTranslations[lang];
             if (!t) return;
