@@ -10,7 +10,7 @@ An intelligent agricultural decision-support platform that helps farmers detect 
 
 
 
-[Watch Demo Video](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[Watch Demo Video]([https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://youtu.be/V0ntv5GaOYw?si=qh-mNu17--5EXslU))
 
 
 
